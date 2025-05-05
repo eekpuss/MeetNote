@@ -92,11 +92,33 @@ function checkAuthentication() {
     }
     
     const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
     
-    if (!token) {
-        // Redirect ke halaman login jika tidak ada token
+    if (!token || !user) {
+        // Redirect ke halaman login jika tidak ada token atau user
         window.location.href = getBasePath() + 'login.html';
         return;
+    }
+    
+    // Jika menggunakan token demo, langsung perbarui UI tanpa cek ke API
+    if (token === 'dummy-token-admin' || token === 'dummy-token-user') {
+        try {
+            const userData = JSON.parse(user);
+            updateUserInfo(userData);
+            
+            // Tampilkan notifikasi untuk mode demo
+            if (!sessionStorage.getItem('demo-notification-shown')) {
+                showToast('Anda menggunakan aplikasi dalam mode demo', 'info');
+                sessionStorage.setItem('demo-notification-shown', 'true');
+            }
+            return;
+        } catch (error) {
+            console.error('Invalid user data', error);
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = getBasePath() + 'login.html';
+            return;
+        }
     }
     
     // Verifikasi token dengan request ke API

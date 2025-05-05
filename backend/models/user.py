@@ -14,9 +14,17 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
-    # Relationships
-    meetings_created = db.relationship('Meeting', backref='creator', lazy='dynamic')
-    todos_assigned = db.relationship('Todo', backref='assignee', lazy='dynamic')
+    # Hubungan dengan Meeting
+    meetings_created = db.relationship('Meeting', backref='creator', lazy='dynamic', 
+                                      foreign_keys='Meeting.creator_id')
+    
+    # Hubungan dengan Todo - Memperbaiki ambiguitas
+    todos_assigned = db.relationship('Todo', backref='assignee', lazy='dynamic',
+                                   foreign_keys='Todo.assignee_id')
+    
+    # Tambahkan juga relasi untuk Todo yang dibuat user
+    todos_created = db.relationship('Todo', backref='creator', lazy='dynamic',
+                                   foreign_keys='Todo.creator_id')
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
