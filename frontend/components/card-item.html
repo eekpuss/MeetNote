@@ -1,0 +1,410 @@
+<!-- Meeting Card Component -->
+<template id="meeting-card-template">
+    <div class="meeting-card card mb-3">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h5 class="card-title meeting-title"></h5>
+                    <div class="card-subtitle text-muted meeting-date mb-2"></div>
+                    <p class="card-text meeting-location"></p>
+                </div>
+                <span class="meeting-status badge"></span>
+            </div>
+            <div class="meeting-description mb-3"></div>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="meeting-participants">
+                    <i class="fas fa-users me-1"></i> <span class="participant-count">0</span> Participants
+                </div>
+                <div class="meeting-actions">
+                    <a href="#" class="btn btn-sm btn-info meeting-view-btn me-1"><i class="fas fa-eye"></i></a>
+                    <a href="#" class="btn btn-sm btn-warning meeting-edit-btn me-1"><i class="fas fa-edit"></i></a>
+                    <button class="btn btn-sm btn-danger meeting-delete-btn"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<!-- Todo Card Component -->
+<template id="todo-card-template">
+    <div class="todo-card card mb-3">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+                <div class="d-flex align-items-center">
+                    <div class="todo-checkbox me-3"></div>
+                    <div>
+                        <h5 class="card-title todo-title"></h5>
+                        <div class="card-subtitle text-muted todo-deadline mb-2"></div>
+                    </div>
+                </div>
+                <span class="todo-priority badge"></span>
+            </div>
+            <div class="todo-description mb-3"></div>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="todo-assignee">
+                    <i class="fas fa-user me-1"></i> <span class="assignee-name">Unassigned</span>
+                </div>
+                <div class="todo-actions">
+                    <a href="#" class="btn btn-sm btn-info todo-view-btn me-1"><i class="fas fa-eye"></i></a>
+                    <a href="#" class="btn btn-sm btn-warning todo-edit-btn me-1"><i class="fas fa-edit"></i></a>
+                    <button class="btn btn-sm btn-danger todo-delete-btn"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    /**
+     * Membuat card meeting dari data
+     * @param {Object} meeting - Data meeting
+     * @param {Object} options - Opsi tambahan
+     * @param {boolean} options.showActions - Tampilkan action buttons (default: true)
+     * @param {function} options.onView - Callback saat tombol view diklik
+     * @param {function} options.onEdit - Callback saat tombol edit diklik
+     * @param {function} options.onDelete - Callback saat tombol delete diklik
+     * @returns {HTMLElement} - Element card meeting
+     */
+    function createMeetingCard(meeting, options = {}) {
+        // Default options
+        const defaultOptions = {
+            showActions: true,
+            onView: null,
+            onEdit: null,
+            onDelete: null
+        };
+        
+        // Merge options
+        const mergedOptions = { ...defaultOptions, ...options };
+        
+        // Clone template
+        const template = document.getElementById('meeting-card-template');
+        const card = document.importNode(template.content, true).querySelector('.meeting-card');
+        
+        // Set meeting data
+        card.querySelector('.meeting-title').textContent = meeting.title;
+        
+        // Format tanggal
+        const meetingDate = new Date(meeting.meeting_date);
+        card.querySelector('.meeting-date').textContent = formatDate(meetingDate);
+        
+        // Set lokasi
+        card.querySelector('.meeting-location').textContent = meeting.location || 'No location specified';
+        
+        // Set status
+        const statusElement = card.querySelector('.meeting-status');
+        const now = new Date();
+        
+        if (meetingDate > now) {
+            statusElement.textContent = 'Upcoming';
+            statusElement.classList.add('bg-primary');
+        } else {
+            statusElement.textContent = 'Completed';
+            statusElement.classList.add('bg-success');
+        }
+        
+        // Set deskripsi (jika ada)
+        if (meeting.description) {
+            card.querySelector('.meeting-description').textContent = truncateText(meeting.description, 100);
+        } else {
+            card.querySelector('.meeting-description').textContent = 'No description';
+        }
+        
+        // Set jumlah peserta
+        const participantCount = meeting.participants ? meeting.participants.length : 0;
+        card.querySelector('.participant-count').textContent = participantCount;
+        
+        // Set action buttons
+        if (mergedOptions.showActions) {
+            // View button
+            const viewBtn = card.querySelector('.meeting-view-btn');
+            viewBtn.href = `view.html?id=${meeting.id}`;
+            if (mergedOptions.onView) {
+                viewBtn.onclick = (e) => {
+                    e.preventDefault();
+                    mergedOptions.onView(meeting);
+                };
+            }
+            
+            // Edit button
+            const editBtn = card.querySelector('.meeting-edit-btn');
+            editBtn.href = `create.html?id=${meeting.id}`;
+            if (mergedOptions.onEdit) {
+                editBtn.onclick = (e) => {
+                    e.preventDefault();
+                    mergedOptions.onEdit(meeting);
+                };
+            }
+            
+            // Delete button
+            const deleteBtn = card.querySelector('.meeting-delete-btn');
+            if (mergedOptions.onDelete) {
+                deleteBtn.onclick = (e) => {
+                    e.preventDefault();
+                    mergedOptions.onDelete(meeting);
+                };
+            } else {
+                deleteBtn.onclick = (e) => {
+                    e.preventDefault();
+                    // Default delete handler
+                    if (confirm(`Are you sure you want to delete meeting "${meeting.title}"?`)) {
+                        console.log(`Delete meeting ${meeting.id}`);
+                    }
+                };
+            }
+        } else {
+            // Sembunyikan action buttons
+            card.querySelector('.meeting-actions').style.display = 'none';
+        }
+        
+        // Tambahkan data ID ke card
+        card.dataset.id = meeting.id;
+        
+        return card;
+    }
+    
+    /**
+     * Membuat card todo dari data
+     * @param {Object} todo - Data todo
+     * @param {Object} options - Opsi tambahan
+     * @param {boolean} options.showActions - Tampilkan action buttons (default: true)
+     * @param {function} options.onView - Callback saat tombol view diklik
+     * @param {function} options.onEdit - Callback saat tombol edit diklik
+     * @param {function} options.onDelete - Callback saat tombol delete diklik
+     * @param {function} options.onCheckboxChange - Callback saat checkbox berubah
+     * @returns {HTMLElement} - Element card todo
+     */
+    function createTodoCard(todo, options = {}) {
+        // Default options
+        const defaultOptions = {
+            showActions: true,
+            onView: null,
+            onEdit: null,
+            onDelete: null,
+            onCheckboxChange: null
+        };
+        
+        // Merge options
+        const mergedOptions = { ...defaultOptions, ...options };
+        
+        // Clone template
+        const template = document.getElementById('todo-card-template');
+        const card = document.importNode(template.content, true).querySelector('.todo-card');
+        
+        // Set todo data
+        card.querySelector('.todo-title').textContent = todo.title;
+        
+        // Format deadline
+        const deadlineElement = card.querySelector('.todo-deadline');
+        if (todo.deadline) {
+            const deadlineDate = new Date(todo.deadline);
+            deadlineElement.textContent = formatDate(deadlineDate);
+            
+            // Tambahkan class jika deadline sudah terlewat
+            const now = new Date();
+            if (deadlineDate < now && todo.status !== 'completed') {
+                deadlineElement.classList.add('text-danger');
+                deadlineElement.textContent += ' (Overdue)';
+            }
+        } else {
+            deadlineElement.textContent = 'No deadline';
+        }
+        
+        // Set prioritas
+        const priorityElement = card.querySelector('.todo-priority');
+        switch (todo.priority) {
+            case 'low':
+                priorityElement.textContent = 'Low';
+                priorityElement.classList.add('bg-info');
+                break;
+            case 'medium':
+                priorityElement.textContent = 'Medium';
+                priorityElement.classList.add('bg-warning');
+                break;
+            case 'high':
+                priorityElement.textContent = 'High';
+                priorityElement.classList.add('bg-danger');
+                break;
+        }
+        
+        // Set deskripsi (jika ada)
+        if (todo.description) {
+            card.querySelector('.todo-description').textContent = truncateText(todo.description, 100);
+        } else {
+            card.querySelector('.todo-description').textContent = 'No description';
+        }
+        
+        // Set assignee
+        if (todo.assignee) {
+            card.querySelector('.assignee-name').textContent = todo.assignee.username;
+        }
+        
+        // Set checkbox
+        const checkboxElement = card.querySelector('.todo-checkbox');
+        checkboxElement.innerHTML = `<div class="form-check">
+            <input class="form-check-input" type="checkbox" value="${todo.id}" ${todo.status === 'completed' ? 'checked' : ''}>
+        </div>`;
+        
+        // Set event listener pada checkbox
+        const checkbox = checkboxElement.querySelector('input[type="checkbox"]');
+        checkbox.addEventListener('change', function() {
+            if (mergedOptions.onCheckboxChange) {
+                mergedOptions.onCheckboxChange(todo, this.checked);
+            } else {
+                // Default checkbox handler
+                console.log(`Todo ${todo.id} status changed to: ${this.checked ? 'completed' : 'not_started'}`);
+            }
+        });
+        
+        // Set action buttons
+        if (mergedOptions.showActions) {
+            // View button
+            const viewBtn = card.querySelector('.todo-view-btn');
+            viewBtn.href = `view.html?id=${todo.id}`;
+            if (mergedOptions.onView) {
+                viewBtn.onclick = (e) => {
+                    e.preventDefault();
+                    mergedOptions.onView(todo);
+                };
+            }
+            
+            // Edit button
+            const editBtn = card.querySelector('.todo-edit-btn');
+            editBtn.href = `create.html?id=${todo.id}`;
+            if (mergedOptions.onEdit) {
+                editBtn.onclick = (e) => {
+                    e.preventDefault();
+                    mergedOptions.onEdit(todo);
+                };
+            }
+            
+            // Delete button
+            const deleteBtn = card.querySelector('.todo-delete-btn');
+            if (mergedOptions.onDelete) {
+                deleteBtn.onclick = (e) => {
+                    e.preventDefault();
+                    mergedOptions.onDelete(todo);
+                };
+            } else {
+                deleteBtn.onclick = (e) => {
+                    e.preventDefault();
+                    // Default delete handler
+                    if (confirm(`Are you sure you want to delete todo "${todo.title}"?`)) {
+                        console.log(`Delete todo ${todo.id}`);
+                    }
+                };
+            }
+        } else {
+            // Sembunyikan action buttons
+            card.querySelector('.todo-actions').style.display = 'none';
+        }
+        
+        // Tambahkan data ID ke card
+        card.dataset.id = todo.id;
+        
+        return card;
+    }
+    
+    /**
+     * Format tanggal
+     * @param {Date} date - Objek Date
+     * @returns {string} - Tanggal yang sudah diformat
+     */
+    function formatDate(date) {
+        if (!date) return '';
+        
+        return date.toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+    
+    /**
+     * Memotong teks yang terlalu panjang
+     * @param {string} text - Teks yang akan dipotong
+     * @param {number} maxLength - Panjang maksimal
+     * @returns {string} - Teks yang sudah dipotong
+     */
+    function truncateText(text, maxLength = 100) {
+        if (!text) return '';
+        
+        if (text.length <= maxLength) return text;
+        
+        return text.substring(0, maxLength) + '...';
+    }
+    
+    // Export function untuk digunakan di file lain
+    window.createMeetingCard = createMeetingCard;
+    window.createTodoCard = createTodoCard;
+</script>
+
+<style>
+    .meeting-card,
+    .todo-card {
+        border: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .meeting-card:hover,
+    .todo-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .meeting-title,
+    .todo-title {
+        font-weight: 600;
+        color: var(--dark-blue);
+        margin-bottom: 5px;
+    }
+    
+    .meeting-description,
+    .todo-description {
+        color: var(--medium-blue);
+        font-size: 14px;
+    }
+    
+    .meeting-participants,
+    .todo-assignee {
+        color: #888;
+        font-size: 14px;
+    }
+    
+    .todo-checkbox .form-check-input {
+        width: 20px;
+    }
+    
+    .todo-checkbox .form-check-input {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    .todo-checkbox .form-check-input:checked {
+        background-color: var(--warm-gray);
+        border-color: var(--warm-gray);
+    }
+
+    .meeting-actions,
+    .todo-actions {
+        white-space: nowrap;
+    }
+
+    .meeting-actions .btn,
+    .todo-actions .btn {
+        padding: 0.25rem 0.5rem;
+    }
+
+    @media (max-width: 767.98px) {
+        .meeting-actions .btn,
+        .todo-actions .btn {
+            padding: 0.25rem 0.4rem;
+            margin-right: 0 !important;
+        }
+    }
+    
+</style>

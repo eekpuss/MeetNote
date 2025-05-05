@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeetNote - Daftar Meeting</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Nunito Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../../assets/css/main.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-clipboard-list logo-icon"></i>
+                <span class="menu-text">MeetNote</span>
+            </div>
+            <div class="toggle-btn" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+        
+        <div class="sidebar-menu">
+            <a href="../../index.html" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            
+            <a href="list.html" class="menu-item active">
+                <div class="menu-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <span class="menu-text">Meetings</span>
+                <span class="badge-notify">3</span>
+            </a>
+            
+            <a href="../todos/list.html" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <span class="menu-text">Todo List</span>
+                <span class="badge-notify">5</span>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <span class="menu-text">Reports</span>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <span class="menu-text">Settings</span>
+            </a>
+        </div>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    JD
+                </div>
+                <div class="user-details">
+                    <div class="user-name">John Doe</div>
+                    <div class="user-role">Administrator</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="header">
+            <div class="mobile-toggle" id="mobileToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Cari meeting...">
+            </div>
+            
+            <div class="header-actions">
+                <div class="header-icon">
+                    <i class="fas fa-bell"></i>
+                    <div class="notification-count">3</div>
+                </div>
+                
+                <div class="header-icon">
+                    <i class="fas fa-envelope"></i>
+                    <div class="notification-count">2</div>
+                </div>
+                
+                <div class="header-icon">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="page-title">Daftar Meeting</h1>
+                <a href="create.html" class="btn btn-primary"><i class="fas fa-plus me-2"></i>Buat Meeting Baru</a>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Semua Meeting</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Akan Datang</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Selesai</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-3 mb-2">
+                            <select class="form-select" id="filterMonth">
+                                <option value="">Semua Bulan</option>
+                                <option value="1">Januari</option>
+                                <option value="2">Februari</option>
+                                <option value="3">Maret</option>
+                                <option value="4">April</option>
+                                <option value="5">Mei</option>
+                                <option value="6">Juni</option>
+                                <option value="7">Juli</option>
+                                <option value="8">Agustus</option>
+                                <option value="9">September</option>
+                                <option value="10">Oktober</option>
+                                <option value="11">November</option>
+                                <option value="12">Desember</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <select class="form-select" id="filterLocation">
+                                <option value="">Semua Lokasi</option>
+                                <option value="office">Kantor</option>
+                                <option value="virtual">Virtual</option>
+                                <option value="client">Kantor Klien</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-end mb-2">
+                            <div class="btn-group">
+                                <button class="btn btn-outline-secondary active"><i class="fas fa-list"></i></button>
+                                <button class="btn btn-outline-secondary"><i class="fas fa-calendar"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="meetingsTable">
+                            <thead>
+                                <tr>
+                                    <th>Judul</th>
+                                    <th>Tanggal</th>
+                                    <th>Waktu</th>
+                                    <th>Lokasi</th>
+                                    <th>Peserta</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data meeting akan diisi dari API -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../../assets/js/main.js"></script>
+    <script>
+        // Fungsi untuk mendapatkan token dari localStorage
+        function getToken() {
+            return localStorage.getItem('token');
+        }
+        
+        // Fungsi untuk melakukan request ke API
+        async function fetchMeetings() {
+            try {
+                const token = getToken();
+                if (!token) {
+                    window.location.href = '../../login.html';
+                    return;
+                }
+                
+                const response = await fetch('http://localhost:5000/api/meetings/', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (response.status === 401) {
+                    // Token tidak valid atau expired
+                    localStorage.removeItem('token');
+                    window.location.href = '../../login.html';
+                    return;
+                }
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch meetings');
+                }
+                
+                const meetings = await response.json();
+                displayMeetings(meetings);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal memuat data meeting. Silakan coba lagi.');
+            }
+        }
+        
+        // Fungsi untuk menampilkan data meeting
+        function displayMeetings(meetings) {
+            const tbody = document.querySelector('#meetingsTable tbody');
+            tbody.innerHTML = '';
+            
+            if (meetings.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center">Tidak ada meeting yang ditemukan</td></tr>`;
+                return;
+            }
+            
+            meetings.forEach(meeting => {
+                const meetingDate = new Date(meeting.meeting_date);
+                const formattedDate = meetingDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+                const formattedTime = meetingDate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+                
+                // Status meeting (simpel: jika tanggal meeting sudah lewat, maka "Selesai")
+                const status = meetingDate < new Date() ? 'Selesai' : 'Akan Datang';
+                const statusClass = meetingDate < new Date() ? 'bg-success' : 'bg-primary';
+                
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${meeting.title}</td>
+                        <td>${formattedDate}</td>
+                        <td>${formattedTime}</td>
+                        <td>${meeting.location || 'Tidak ditentukan'}</td>
+                        <td>${meeting.participants ? meeting.participants.length : 0} orang</td>
+                        <td><span class="badge ${statusClass}">${status}</span></td>
+                        <td>
+                            <a href="view.html?id=${meeting.id}" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></a>
+                            <a href="create.html?id=${meeting.id}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                            <button class="btn btn-sm btn-danger" onclick="deleteMeeting(${meeting.id})"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+        
+        // Fungsi untuk menghapus meeting
+        async function deleteMeeting(meetingId) {
+            if (!confirm('Apakah Anda yakin ingin menghapus meeting ini?')) {
+                return;
+            }
+            
+            try {
+                const token = getToken();
+                const response = await fetch(`http://localhost:5000/api/meetings/${meetingId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to delete meeting');
+                }
+                
+                alert('Meeting berhasil dihapus');
+                fetchMeetings(); // Refresh data
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal menghapus meeting. Silakan coba lagi.');
+            }
+        }
+        
+        // Menambahkan event listener untuk filter
+        document.getElementById('filterMonth').addEventListener('change', fetchMeetings);
+        document.getElementById('filterLocation').addEventListener('change', fetchMeetings);
+        
+        // Load meetings saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', fetchMeetings);
+    </script>
+</body>
+</html>

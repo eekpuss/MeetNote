@@ -1,0 +1,79 @@
+<!-- Footer Component -->
+<footer class="footer mt-auto py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="d-flex align-items-center">
+                    <div class="logo me-3">
+                        <i class="fas fa-clipboard-list logo-icon"></i>
+                        <span>MeetNote</span>
+                    </div>
+                    <span class="text-muted">&copy; <span id="currentYear">2025</span> MeetNote. All rights reserved.</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Help</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Terms</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Privacy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Update current year
+        const currentYear = new Date().getFullYear();
+        document.getElementById('currentYear').textContent = currentYear;
+    });
+</script>
+
+<style>
+    .footer {
+        background-color: white;
+        border-top: 1px solid #e7e7e7;
+        color: var(--medium-blue);
+        font-size: 14px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    
+    .footer .logo {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--warm-gray);
+    }
+    
+    .footer .nav-link {
+        color: var(--medium-blue);
+        padding: 0.25rem 0.75rem;
+        transition: all 0.3s;
+    }
+    
+    .footer .nav-link:hover {
+        color: var(--warm-gray);
+    }
+    
+    @media (max-width: 767.98px) {
+        .footer .nav {
+            justify-content: flex-start !important;
+            margin-top: 15px;
+        }
+        
+        .footer .nav-link {
+            padding-left: 0;
+            padding-right: 1rem;
+        }
+    }
+</style>

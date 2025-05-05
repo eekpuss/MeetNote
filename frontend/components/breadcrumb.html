@@ -1,0 +1,229 @@
+<!-- Breadcrumb Component -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb" id="breadcrumbContainer">
+        <!-- Breadcrumb items will be added here dynamically -->
+    </ol>
+</nav>
+
+<script>
+    /**
+     * Mengatur breadcrumb berdasarkan path saat ini
+     * @param {Array} customItems - Item-item breadcrumb kustom (opsional)
+     */
+    function setupBreadcrumb(customItems = null) {
+        const breadcrumbContainer = document.getElementById('breadcrumbContainer');
+        
+        if (!breadcrumbContainer) return;
+        
+        breadcrumbContainer.innerHTML = '';
+        
+        // Jika ada custom items, gunakan itu
+        if (customItems && Array.isArray(customItems)) {
+            customItems.forEach((item, index) => {
+                const isLast = index === customItems.length - 1;
+                
+                const li = document.createElement('li');
+                li.className = `breadcrumb-item${isLast ? ' active' : ''}`;
+                
+                if (isLast) {
+                    li.setAttribute('aria-current', 'page');
+                    li.textContent = item.text;
+                } else {
+                    const a = document.createElement('a');
+                    a.href = item.url || '#';
+                    a.textContent = item.text;
+                    li.appendChild(a);
+                }
+                
+                breadcrumbContainer.appendChild(li);
+            });
+            
+            return;
+        }
+        
+        // Auto generate breadcrumb berdasarkan path URL
+        const path = window.location.pathname;
+        const pathSegments = path.split('/').filter(segment => segment);
+        
+        // Tambahkan Home
+        const homeLi = document.createElement('li');
+        homeLi.className = 'breadcrumb-item';
+        
+        const homeLink = document.createElement('a');
+        homeLink.href = getBasePath();
+        homeLink.textContent = 'Home';
+        homeLi.appendChild(homeLink);
+        
+        breadcrumbContainer.appendChild(homeLi);
+        
+        // Jika tidak ada segment, berarti kita di homepage
+        if (pathSegments.length === 0 || (pathSegments.length === 1 && pathSegments[0] === 'index.html')) {
+            return;
+        }
+        
+        // Process each path segment
+        let currentPath = '';
+        
+        for (let i = 0; i < pathSegments.length; i++) {
+            const segment = pathSegments[i];
+            
+            // Skip index.html
+            if (segment === 'index.html') continue;
+            
+            currentPath += '/' + segment;
+            
+            const li = document.createElement('li');
+            li.className = 'breadcrumb-item';
+            
+            // Jika ini segment terakhir, buat sebagai active
+            if (i === pathSegments.length - 1 || (i === pathSegments.length - 2 && pathSegments[pathSegments.length - 1] === 'index.html')) {
+                li.classList.add('active');
+                li.setAttribute('aria-current', 'page');
+                
+                // Format text
+                let segmentText = segment;
+                
+                // Jika ini file HTML, hapus ekstensi
+                if (segmentText.endsWith('.html')) {
+                    segmentText = segmentText.slice(0, -5);
+                }
+                
+                // Format string (misalnya: "create" -> "Create")
+                segmentText = segmentText.charAt(0).toUpperCase() + segmentText.slice(1);
+                
+                // Ganti - dengan spasi
+                segmentText = segmentText.replace(/-/g, ' ');
+                
+                li.textContent = segmentText;
+            } else {
+                const a = document.createElement('a');
+                a.href = getBasePath() + currentPath;
+                
+                // Format text
+                let segmentText = segment;
+                
+                // Format string (misalnya: "todos" -> "Todos")
+                segmentText = segmentText.charAt(0).toUpperCase() + segmentText.slice(1);
+                
+                // Ganti - dengan spasi
+                segmentText = segmentText.replace(/-/g, ' ');
+                
+                a.textContent = segmentText;
+                li.appendChild(a);
+            }
+            
+            breadcrumbContainer.appendChild(li);
+        }
+    }
+    
+    /**
+     * Mendapatkan base path berdasarkan depth saat ini
+     * @returns {string} - Base path untuk navigasi (contoh: "../", "../../", dll)
+     */
+    function getBasePath() {
+        const path = window.location.pathname;
+        const pathSegments = path.split('/').filter(segment => segment);
+        
+        // Jika di root atau di index.html
+        if (pathSegments.length === 0 || (pathSegments.length === 1 && pathSegments[0] === 'index.html')) {
+            return './';
+        }
+        
+        // Hitung depth
+        let depth = pathSegments.length;
+        
+        // Jika segment terakhir adalah file, kurangi depth
+        const lastSegment = pathSegments[pathSegments.length - 1];
+        if (lastSegment.includes('.')) {
+            depth--;
+        }
+        
+        // Buat string "../" sebanyak depth
+        return '../'.repeat(depth);
+    }
+    
+    /**
+     * Tambahkan breadcrumb item ke breadcrumb container
+     * @param {string} text - Teks yang akan ditampilkan
+     * @param {string} url - URL yang akan dituju ketika diklik (null untuk item aktif)
+     */
+    function addBreadcrumbItem(text, url = null) {
+        const breadcrumbContainer = document.getElementById('breadcrumbContainer');
+        
+        if (!breadcrumbContainer) return;
+        
+        const li = document.createElement('li');
+        li.className = 'breadcrumb-item';
+        
+        if (url) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.textContent = text;
+            li.appendChild(a);
+        } else {
+            li.classList.add('active');
+            li.setAttribute('aria-current', 'page');
+            li.textContent = text;
+        }
+        
+        breadcrumbContainer.appendChild(li);
+    }
+    
+    /**
+     * Set breadcrumb item aktif (terakhir)
+     * @param {string} text - Teks yang akan ditampilkan
+     */
+    function setActiveBreadcrumb(text) {
+        const breadcrumbContainer = document.getElementById('breadcrumbContainer');
+        
+        if (!breadcrumbContainer) return;
+        
+        // Hapus item aktif sebelumnya
+        const activeItem = breadcrumbContainer.querySelector('.breadcrumb-item.active');
+        if (activeItem) {
+            activeItem.remove();
+        }
+        
+        // Tambahkan item aktif baru
+        addBreadcrumbItem(text);
+    }
+    
+    // Export function untuk digunakan di file lain
+    window.setupBreadcrumb = setupBreadcrumb;
+    window.addBreadcrumbItem = addBreadcrumbItem;
+    window.setActiveBreadcrumb = setActiveBreadcrumb;
+    
+    // Setup breadcrumb saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', function() {
+        setupBreadcrumb();
+    });
+</script>
+
+<style>
+    .breadcrumb {
+        background-color: transparent;
+        padding: 0;
+        margin-bottom: 0;
+    }
+    
+    .breadcrumb-item a {
+        color: var(--warm-gray);
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+    
+    .breadcrumb-item a:hover {
+        color: var(--dark-blue);
+        text-decoration: none;
+    }
+    
+    .breadcrumb-item.active {
+        color: var(--dark-blue);
+        font-weight: 600;
+    }
+    
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: "/";
+        color: #888;
+    }
+</style>

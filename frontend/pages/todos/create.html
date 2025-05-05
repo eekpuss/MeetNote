@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeetNote - Buat Todo</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Nunito Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../../assets/css/main.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-clipboard-list logo-icon"></i>
+                <span class="menu-text">MeetNote</span>
+            </div>
+            <div class="toggle-btn" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+        
+        <div class="sidebar-menu">
+            <a href="../../index.html" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            
+            <a href="../meetings/list.html" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <span class="menu-text">Meetings</span>
+                <span class="badge-notify">3</span>
+            </a>
+            
+            <a href="list.html" class="menu-item active">
+                <div class="menu-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <span class="menu-text">Todo List</span>
+                <span class="badge-notify">5</span>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <span class="menu-text">Reports</span>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <span class="menu-text">Settings</span>
+            </a>
+        </div>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    JD
+                </div>
+                <div class="user-details">
+                    <div class="user-name">John Doe</div>
+                    <div class="user-role">Administrator</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="header">
+            <div class="mobile-toggle" id="mobileToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="../../index.html">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="list.html">Todo List</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" id="pageTitle">Buat Todo</li>
+                </ol>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="header-icon">
+                    <i class="fas fa-bell"></i>
+                    <div class="notification-count">3</div>
+                </div>
+                
+                <div class="header-icon">
+                    <i class="fas fa-envelope"></i>
+                    <div class="notification-count">2</div>
+                </div>
+                
+                <div class="header-icon">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title" id="formTitle">Buat Todo Baru</h5>
+                </div>
+                <div class="card-body">
+                    <form id="todoForm">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Judul <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Deskripsi</label>
+                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="deadline" class="form-label">Deadline <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="deadline" name="deadline" required>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="priority" class="form-label">Prioritas</label>
+                                <select class="form-select" id="priority" name="priority">
+                                    <option value="low">Rendah</option>
+                                    <option value="medium" selected>Sedang</option>
+                                    <option value="high">Tinggi</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="assignee" class="form-label">PIC <span class="text-danger">*</span></label>
+                                <select class="form-select" id="assignee" name="assignee" required>
+                                    <option value="">Pilih PIC</option>
+                                    <!-- Options akan diisi dari API -->
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="status" class="form-label">Status</label>
+                                <select class="form-select" id="status" name="status">
+                                    <option value="not_started" selected>Belum Dimulai</option>
+                                    <option value="in_progress">Sedang Dikerjakan</option>
+                                    <option value="completed">Selesai</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="meeting" class="form-label">Meeting Terkait</label>
+                            <select class="form-select" id="meeting" name="meeting">
+                                <option value="">Tidak Terkait Meeting</option>
+                                <!-- Options akan diisi dari API -->
+                            </select>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="list.html" class="btn btn-secondary">Batal</a>
+                            <button type="submit" class="btn btn-primary" id="submitBtn">Simpan Todo</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../../assets/js/main.js"></script>
+    <script>
+        // Fungsi untuk mendapatkan token dari localStorage
+        function getToken() {
+            return localStorage.getItem('token');
+        }
+        
+        // Fungsi untuk mendapatkan parameter dari URL
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+        
+        let todoId = getUrlParameter('id');
+        let isEditMode = !!todoId;
+        
+        // Update UI berdasarkan mode (Create atau Edit)
+        if (isEditMode) {
+            document.getElementById('pageTitle').textContent = 'Edit Todo';
+            document.getElementById('formTitle').textContent = 'Edit Todo';
+            document.getElementById('submitBtn').textContent = 'Update Todo';
+        }
+        
+        // Mendapatkan daftar pengguna untuk dropdown assignee
+        async function fetchUsers() {
+            try {
+                const token = getToken();
+                if (!token) {
+                    window.location.href = '../../login.html';
+                    return;
+                }
+                
+                const response = await fetch('http://localhost:5000/api/auth/users', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch users');
+                }
+                
+                const users = await response.json();
+                const selectElement = document.getElementById('assignee');
+                
+                users.forEach(user => {
+                    const option = document.createElement('option');
+                    option.value = user.id;
+                    option.textContent = `${user.username} (${user.email})`;
+                    selectElement.appendChild(option);
+                });
+                
+                // Ambil daftar meeting
+                fetchMeetings();
+                
+                // Jika mode edit, ambil data todo yang akan diedit
+                if (isEditMode) {
+                    fetchTodoDetails();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal memuat daftar pengguna. Silakan coba lagi.');
+            }
+        }
+        
+        // Mendapatkan daftar meeting untuk dropdown
+        async function fetchMeetings() {
+            try {
+                const token = getToken();
+                const response = await fetch('http://localhost:5000/api/meetings/', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch meetings');
+                }
+                
+                const meetings = await response.json();
+                const selectElement = document.getElementById('meeting');
+                
+                meetings.forEach(meeting => {
+                    const option = document.createElement('option');
+                    option.value = meeting.id;
+                    option.textContent = meeting.title;
+                    selectElement.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal memuat daftar meeting. Silakan coba lagi.');
+            }
+        }
+        
+        // Mendapatkan detail todo untuk mode edit
+        async function fetchTodoDetails() {
+            try {
+                const token = getToken();
+                const response = await fetch(`http://localhost:5000/api/todos/${todoId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch todo details');
+                }
+                
+                const todo = await response.json();
+                
+                // Isi form dengan data todo
+                document.getElementById('title').value = todo.title;
+                document.getElementById('description').value = todo.description || '';
+                document.getElementById('priority').value = todo.priority;
+                document.getElementById('status').value = todo.status;
+                
+                // Format tanggal untuk input date
+                if (todo.deadline) {
+                    const deadlineDate = new Date(todo.deadline);
+                    document.getElementById('deadline').value = deadlineDate.toISOString().slice(0, 10);
+                }
+                
+                // Set assignee
+                if (todo.assignee_id) {
+                    document.getElementById('assignee').value = todo.assignee_id;
+                }
+                
+                // Set meeting jika ada
+                if (todo.meeting_id) {
+                    document.getElementById('meeting').value = todo.meeting_id;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal memuat detail todo. Silakan coba lagi.');
+            }
+        }
+        
+        // Handler untuk submit form
+        document.getElementById('todoForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const deadline = document.getElementById('deadline').value;
+            const priority = document.getElementById('priority').value;
+            const assigneeId = document.getElementById('assignee').value;
+            const status = document.getElementById('status').value;
+            const meetingId = document.getElementById('meeting').value;
+            
+            // Validasi form
+            if (!title || !deadline || !assigneeId) {
+                alert('Mohon lengkapi semua field yang wajib diisi.');
+                return;
+            }
+            
+            // Format data untuk API
+            const todoData = {
+                title: title,
+                description: description,
+                deadline: new Date(deadline).toISOString(),
+                priority: priority,
+                status: status,
+                assignee_id: parseInt(assigneeId)
+            };
+            
+            // Tambahkan meeting_id jika dipilih
+            if (meetingId) {
+                todoData.meeting_id = parseInt(meetingId);
+            }
+            
+            try {
+                const token = getToken();
+                
+                let url = 'http://localhost:5000/api/todos/';
+                let method = 'POST';
+                
+                // Jika mode edit, gunakan PUT request
+                if (isEditMode) {
+                    url = `http://localhost:5000/api/todos/${todoId}`;
+                    method = 'PUT';
+                }
+                
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(todoData)
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to save todo');
+                }
+                
+                alert(isEditMode ? 'Todo berhasil diperbarui!' : 'Todo berhasil dibuat!');
+                window.location.href = 'list.html';
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal menyimpan todo. Silakan coba lagi.');
+            }
+        });
+        
+        // Load data saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', fetchUsers);
+    </script>
+</body>
+</html>

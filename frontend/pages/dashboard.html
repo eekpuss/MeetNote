@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeetNote - Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Nunito Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-clipboard-list logo-icon"></i>
+                <span class="menu-text">MeetNote</span>
+            </div>
+            <div class="toggle-btn" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+        
+        <div class="sidebar-menu">
+            <a href="../index.html" class="menu-item active">
+                <div class="menu-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            
+            <a href="meetings/list.html" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <span class="menu-text">Meetings</span>
+                <span class="badge-notify">3</span>
+            </a>
+            
+            <a href="todos/list.html" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <span class="menu-text">Todo List</span>
+                <span class="badge-notify">5</span>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <span class="menu-text">Reports</span>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <span class="menu-text">Settings</span>
+            </a>
+        </div>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    JD
+                </div>
+                <div class="user-details">
+                    <div class="user-name">John Doe</div>
+                    <div class="user-role">Administrator</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="header">
+            <div class="mobile-toggle" id="mobileToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search...">
+            </div>
+            
+            <div class="header-actions">
+                <div class="header-icon">
+                    <i class="fas fa-bell"></i>
+                    <div class="notification-count">3</div>
+                </div>
+                
+                <div class="header-icon">
+                    <i class="fas fa-envelope"></i>
+                    <div class="notification-count">2</div>
+                </div>
+                
+                <div class="header-icon">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <h1 class="page-title">Dashboard</h1>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Meetings</div>
+                        <div class="stat-icon meetings-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="meetingsCount">0</div>
+                    <div class="stat-description" id="upcomingMeetings">0 upcoming this week</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Todo Items</div>
+                        <div class="stat-icon todos-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="todosCount">0</div>
+                    <div class="stat-description" id="highPriorityTodos">0 high priority</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Next Deadline</div>
+                        <div class="stat-icon deadline-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="nextDeadline">None</div>
+                    <div class="stat-description" id="deadlineItems">0 items due</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Completion Rate</div>
+                        <div class="stat-icon completion-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="completionRate">0%</div>
+                    <div class="stat-description">Last 30 days</div>
+                </div>
+            </div>
+            
+            <div class="dashboard-row">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Today's Meetings</h5>
+                        <a href="meetings/list.html" class="action-link">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <div id="todayMeetingsContainer">
+                            <!-- Today's meetings will be filled from API -->
+                            <div class="text-center py-4 text-muted">
+                                <i class="fas fa-spinner fa-spin me-2"></i> Loading meetings...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Upcoming Deadlines</h5>
+                        <a href="todos/list.html" class="action-link">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <div id="upcomingDeadlinesContainer">
+                            <!-- Upcoming deadlines will be filled from API -->
+                            <div class="text-center py-4 text-muted">
+                                <i class="fas fa-spinner fa-spin me-2"></i> Loading todos...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Recent Activities</h5>
+                </div>
+                <div class="card-body">
+                    <div class="timeline" id="activitiesContainer">
+                        <!-- Recent activities will be filled from API -->
+                        <div class="text-center py-4 text-muted">
+                            <i class="fas fa-spinner fa-spin me-2"></i> Loading activities...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom JS -->
+    <script src="../assets/js/main.js"></script>
+    <script>
+        // Fungsi untuk mendapatkan token dari localStorage
+        function getToken() {
+            return localStorage.getItem('token');
+        }
+        
+        // Fungsi untuk mengecek autentikasi
+        function checkAuth() {
+            const token = getToken();
+            if (!token) {
+                window.location.href = '../login.html';
+                return false;
+            }
+            return true;
+        }
+        
+        // Fungsi untuk mendapatkan data statistik
+        async function fetchDashboardStats() {
+            if (!checkAuth()) return;
+            
+            try {
+                const token = getToken();
+                
+                // Ambil data meetings
+                const meetingsResponse = await fetch('http://localhost:5000/api/meetings/', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!meetingsResponse.ok) {
+                    throw new Error('Failed to fetch meetings');
+                }
+                
+                const meetings = await meetingsResponse.json();
+                
+                // Ambil data todos
+                const todosResponse = await fetch('http://localhost:5000/api/todos/', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!todosResponse.ok) {
+                    throw new Error('Failed to fetch todos');
+                }
+                
+                const todos = await todosResponse.json();
+                
+                // Update statistik
+                updateDashboardStats(meetings, todos);
+                
+                // Update meeting hari ini
+                displayTodayMeetings(meetings);
+                
+                // Update deadline yang akan datang
+                displayUpcomingDeadlines(todos);
+                
+                // Update aktivitas terbaru
+                displayRecentActivities(meetings, todos);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal memuat data dashboard. Silakan coba lagi.');
+            }
+        }
+        
+        // Fungsi untuk mengupdate statistik dashboard
+        function updateDashboardStats(meetings, todos) {
+            // Jumlah meetings
+            document.getElementById('meetingsCount').textContent = meetings.length;
+            
+            // Hitung meeting yang akan datang minggu ini
+            const today = new Date();
+            const nextWeek = new Date();
+            nextWeek.setDate(today.getDate() + 7);
+            
+            const upcomingMeetings = meetings.filter(meeting => {
+                const meetingDate = new Date(meeting.meeting_date);
+                return meetingDate >= today && meetingDate <= nextWeek;
+            });
+            
+            document.getElementById('upcomingMeetings').textContent = `${upcomingMeetings.length} upcoming this week`;
+            
+            // Jumlah todos
+            document.getElementById('todosCount').textContent = todos.length;
+            
+            // Hitung todos dengan prioritas tinggi
+            const highPriorityTodos = todos.filter(todo => todo.priority === 'high');
+            document.getElementById('highPriorityTodos').textContent = `${highPriorityTodos.length} high priority`;
+            
+            // Deadline berikutnya
+            const incompleteTodos = todos.filter(todo => todo.status !== 'completed' && todo.deadline);
+            incompleteTodos.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+            
+            if (incompleteTodos.length > 0) {
+                const nextDeadlineDate = new Date(incompleteTodos[0].deadline);
+                const options = { weekday: 'long', day: 'numeric', month: 'long' };
+                
+                // Hitung jumlah hari dari sekarang
+                const diffTime = Math.abs(nextDeadlineDate - today);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                if (diffDays === 0) {
+                    document.getElementById('nextDeadline').textContent = 'Today';
+                } else if (diffDays === 1) {
+                    document.getElementById('nextDeadline').textContent = 'Tomorrow';
+                } else {
+                    document.getElementById('nextDeadline').textContent = nextDeadlineDate.toLocaleDateString('id-ID', options);
+                }
+                
+                // Hitung jumlah item yang memiliki deadline yang sama
+                const itemsWithSameDeadline = incompleteTodos.filter(todo => {
+                    const todoDeadline = new Date(todo.deadline);
+                    return todoDeadline.toDateString() === nextDeadlineDate.toDateString();
+                });
+                
+                document.getElementById('deadlineItems').textContent = `${itemsWithSameDeadline.length} items due`;
+            } else {
+                document.getElementById('nextDeadline').textContent = 'No deadlines';
+                document.getElementById('deadlineItems').textContent = '0 items due';
+            }
+            
+            // Completion rate
+            const completedTodos = todos.filter(todo => todo.status === 'completed');
+            const completionRate = todos.length > 0 ? Math.round((completedTodos.length / todos.length) * 100) : 0;
+            document.getElementById('completionRate').textContent = `${completionRate}%`;
+        }
+        
+        // Fungsi untuk menampilkan meeting hari ini
+        function displayTodayMeetings(meetings) {
+            const container = document.getElementById('todayMeetingsContainer');
+            container.innerHTML = '';
+            
+            // Filter meeting untuk hari ini
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1);
+            
+            const todayMeetings = meetings.filter(meeting => {
+                const meetingDate = new Date(meeting.meeting_date);
+                return meetingDate >= today && meetingDate < tomorrow;
+            });
+            
+            // Urutkan meeting berdasarkan waktu
+            todayMeetings.sort((a, b) => new Date(a.meeting_date) - new Date(b.meeting_date));
+            
+            if (todayMeetings.length === 0) {
+                container.innerHTML = '<div class="text-center py-4 text-muted">No meetings scheduled for today</div>';
+                return;
+            }
+            
+            // Tampilkan meeting hari ini
+            todayMeetings.forEach(meeting => {
+                const meetingDate = new Date(meeting.meeting_date);
+                const timeStr = meetingDate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+                
+                container.innerHTML += `
+                    <div class="meeting-item">
+                        <div class="meeting-time">
+                            <div class="meeting-time-hour">${timeStr}</div>
+                        </div>
+                        <div class="meeting-details">
+                            <a href="meetings/view.html?id=${meeting.id}" class="meeting-title">${meeting.title}</a>
+                            <div class="meeting-location">
+                                <i class="fas fa-map-marker-alt"></i> ${meeting.location || 'No location specified'}
+                            </div>
+                        </div>
+                        <div class="meeting-status status-upcoming">Upcoming</div>
+                    </div>
+                `;
+            });
+        }
+        
+        // Fungsi untuk menampilkan deadline yang akan datang
+        function displayUpcomingDeadlines(todos) {
+            const container = document.getElementById('upcomingDeadlinesContainer');
+            container.innerHTML = '';
+            
+            // Filter todo yang belum selesai dan memiliki deadline
+            const incompleteTodos = todos.filter(todo => todo.status !== 'completed' && todo.deadline);
+            
+            // Urutkan berdasarkan deadline terdekat
+            incompleteTodos.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+            
+            // Ambil 5 teratas
+            const upcomingTodos = incompleteTodos.slice(0, 5);
+            
+            if (upcomingTodos.length === 0) {
+                container.innerHTML = '<div class="text-center py-4 text-muted">No upcoming deadlines</div>';
+                return;
+            }
+            
+            // Tampilkan deadline yang akan datang
+            upcomingTodos.forEach(todo => {
+                const deadlineDate = new Date(todo.deadline);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                const tomorrow = new Date(today);
+                tomorrow.setDate(today.getDate() + 1);
+                
+                let deadlineText;
+                if (deadlineDate < today) {
+                    deadlineText = '<span class="text-danger">Overdue</span>';
+                } else if (deadlineDate.toDateString() === today.toDateString()) {
+                    deadlineText = '<span class="text-warning">Today</span>';
+                } else if (deadlineDate.toDateString() === tomorrow.toDateString()) {
+                    deadlineText = '<span class="text-primary">Tomorrow</span>';
+                } else {
+                    deadlineText = deadlineDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'long' });
+                }
+                
+                // Badge prioritas
+                let priorityBadge = '';
+                switch (todo.priority) {
+                    case 'low':
+                        priorityBadge = '<span class="badge bg-info">Low</span>';
+                        break;
+                    case 'medium':
+                        priorityBadge = '<span class="badge bg-warning">Medium</span>';
+                        break;
+                    case 'high':
+                        priorityBadge = '<span class="badge bg-danger">High</span>';
+                        break;
+                }
+                
+                container.innerHTML += `
+                    <div class="todo-item">
+                        <div class="todo-checkbox ${todo.status === 'completed' ? 'checked' : ''}">
+                            ${todo.status === 'completed' ? '<i class="fas fa-check"></i>' : ''}
+                        </div>
+                        <div class="todo-details">
+                            <a href="todos/view.html?id=${todo.id}" class="todo-title">${todo.title}</a>
+                            <div class="todo-due">
+                                <i class="fas fa-calendar"></i> ${deadlineText}
+                                ${priorityBadge}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        
+        // Fungsi untuk menampilkan aktivitas terbaru
+        function displayRecentActivities(meetings, todos) {
+            const container = document.getElementById('activitiesContainer');
+            container.innerHTML = '';
+            
+            // Gabungkan aktivitas dari meetings dan todos
+            const activities = [];
+            
+            // Meeting yang dibuat
+            meetings.forEach(meeting => {
+                activities.push({
+                    type: 'meeting_created',
+                    date: meeting.created_at,
+                    title: `Meeting "${meeting.title}" created`,
+                    link: `meetings/view.html?id=${meeting.id}`,
+                    icon: 'calendar-plus'
+                });
+            });
+            
+            // Todo yang dibuat atau diperbarui
+            todos.forEach(todo => {
+                activities.push({
+                    type: 'todo_created',
+                    date: todo.created_at,
+                    title: `Todo "${todo.title}" created`,
+                    link: `todos/view.html?id=${todo.id}`,
+                    icon: 'tasks'
+                });
+                
+                if (todo.status === 'completed') {
+                    activities.push({
+                        type: 'todo_completed',
+                        date: todo.updated_at,
+                        title: `Todo "${todo.title}" completed`,
+                        link: `todos/view.html?id=${todo.id}`,
+                        icon: 'check-circle'
+                    });
+                }
+            });
+            
+            // Urutkan berdasarkan waktu terbaru
+            activities.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // Ambil 10 teratas
+            const recentActivities = activities.slice(0, 10);
+            
+            if (recentActivities.length === 0) {
+                container.innerHTML = '<div class="text-center py-4 text-muted">No recent activities</div>';
+                return;
+            }
+            
+            // Tampilkan aktivitas terbaru
+            recentActivities.forEach(activity => {
+                const activityDate = new Date(activity.date);
+                const timeAgo = getTimeAgo(activityDate);
+                
+                let iconClass;
+                switch (activity.type) {
+                    case 'meeting_created':
+                        iconClass = 'bg-primary';
+                        break;
+                    case 'todo_created':
+                        iconClass = 'bg-info';
+                        break;
+                    case 'todo_completed':
+                        iconClass = 'bg-success';
+                        break;
+                    default:
+                        iconClass = 'bg-secondary';
+                }
+                
+                container.innerHTML += `
+                    <div class="timeline-item">
+                        <div class="timeline-icon ${iconClass}">
+                            <i class="fas fa-${activity.icon}"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <p class="timeline-date">
+                                <i class="fas fa-clock me-1"></i> ${timeAgo}
+                            </p>
+                            <p><a href="${activity.link}">${activity.title}</a></p>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        
+        // Fungsi untuk mendapatkan "waktu yang lalu" dari tanggal
+        function getTimeAgo(date) {
+            const now = new Date();
+            const diffMs = now - date;
+            const diffSeconds = Math.floor(diffMs / 1000);
+            const diffMinutes = Math.floor(diffSeconds / 60);
+            const diffHours = Math.floor(diffMinutes / 60);
+            const diffDays = Math.floor(diffHours / 24);
+            
+            if (diffSeconds < 60) {
+                return 'Just now';
+            } else if (diffMinutes < 60) {
+                return `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`;
+            } else if (diffHours < 24) {
+                return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+            } else if (diffDays < 7) {
+                return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+            } else {
+                return date.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+            }
+        }
+        
+        // Load dashboard data saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', fetchDashboardStats);
+    </script>
+</body>
+</html>

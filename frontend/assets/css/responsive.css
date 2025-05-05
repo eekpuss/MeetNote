@@ -1,0 +1,492 @@
+/* 
+ * MeetNote Responsive CSS
+ * File CSS tambahan untuk responsivitas
+ */
+
+/* =========== Responsif Extra Large (>= 1200px) =========== */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+    
+    .stats-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .dashboard-row {
+        grid-template-columns: 3fr 1fr;
+    }
+}
+
+/* =========== Responsif Large (992px - 1199px) =========== */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .stats-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .dashboard-row {
+        grid-template-columns: 2fr 1fr;
+    }
+    
+    .search-container {
+        width: 250px;
+    }
+}
+
+/* =========== Responsif Medium (768px - 991px) =========== */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .dashboard-row {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .search-container {
+        width: 200px;
+    }
+    
+    /* Menyesuaikan card meeting untuk tampilan medium */
+    .meeting-item {
+        flex-wrap: wrap;
+    }
+    
+    .meeting-status {
+        margin-left: 0;
+        margin-top: 10px;
+        display: inline-block;
+    }
+    
+    /* Menyesuaikan tabel untuk tampilan medium */
+    .table-responsive {
+        overflow-x: auto;
+    }
+    
+    /* Menyesuaikan halaman form */
+    .form-group {
+        margin-bottom: 20px;
+    }
+}
+
+/* =========== Responsif Small (576px - 767px) =========== */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .stats-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .dashboard-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .header {
+        padding: 0 15px;
+    }
+    
+    .content {
+        padding: 15px;
+    }
+    
+    .search-container {
+        width: 150px;
+    }
+    
+    /* Sembunyikan teks pada menu sidebar */
+    .sidebar .menu-text {
+        display: none;
+    }
+    
+    .sidebar {
+        width: var(--sidebar-collapsed-width);
+    }
+    
+    .main-content {
+        margin-left: var(--sidebar-collapsed-width);
+    }
+    
+    /* Tampilan mobile untuk halaman meeting detail */
+    .meeting-header, .todo-header {
+        flex-direction: column;
+    }
+    
+    .meeting-header .btn-group, .todo-header .btn-group {
+        margin-top: 15px;
+        align-self: flex-start;
+    }
+    
+    /* Menyesuaikan tabel di layar kecil */
+    table.table {
+        min-width: 650px;
+    }
+    
+    .table-responsive {
+        margin-bottom: 15px;
+    }
+    
+    /* Menyesuaikan tampilan form */
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-control {
+        font-size: 14px;
+        height: 40px;
+    }
+    
+    /* Menyesuaikan tombol pada tampilan mobile */
+    .btn {
+        padding: 0.375rem 0.75rem;
+        font-size: 14px;
+    }
+    
+    /* Footer tampilan mobile */
+    .footer {
+        text-align: center;
+    }
+    
+    .footer .justify-content-end {
+        justify-content: center !important;
+        margin-top: 10px;
+    }
+}
+
+/* =========== Responsif Extra Small (< 576px) =========== */
+@media (max-width: 575.98px) {
+    .stats-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .dashboard-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .header {
+        padding: 0 15px;
+        height: auto;
+        min-height: var(--header-height);
+    }
+    
+    .content {
+        padding: 15px;
+    }
+    
+    .search-container {
+        display: none;
+    }
+    
+    .header-actions {
+        margin-left: auto;
+    }
+    
+    /* Sembunyikan teks pada menu sidebar */
+    .sidebar .menu-text {
+        display: none;
+    }
+    
+    .sidebar {
+        width: var(--sidebar-collapsed-width);
+        transform: translateX(-100%);
+    }
+    
+    .sidebar.mobile-visible {
+        transform: translateX(0);
+        width: var(--sidebar-width);
+    }
+    
+    .sidebar.mobile-visible .menu-text {
+        display: block;
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+    
+    /* Tampilan mobile untuk halaman meeting dan todo detail */
+    .meeting-header, .todo-header {
+        flex-direction: column;
+    }
+    
+    .meeting-header .btn-group, .todo-header .btn-group {
+        margin-top: 15px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    /* Tampilan tombol pada layar extra small */
+    .btn-group {
+        flex-wrap: wrap;
+    }
+    
+    .btn-group .btn {
+        margin-bottom: 5px;
+        flex-grow: 1;
+    }
+    
+    /* Mengurangi font size untuk menghemat ruang */
+    .page-title {
+        font-size: 24px;
+    }
+    
+    .card-title {
+        font-size: 16px;
+    }
+    
+    .stat-value {
+        font-size: 24px;
+    }
+    
+    /* Menyesuaikan tabel pada layar kecil */
+    .table-responsive {
+        margin-bottom: 15px;
+    }
+    
+    table.table {
+        min-width: 500px;
+    }
+    
+    /* Menyesuaikan tampilan form */
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-control {
+        font-size: 14px;
+        height: 40px;
+    }
+    
+    .form-label {
+        font-size: 14px;
+    }
+    
+    /* Membuat form full width pada layar kecil */
+    .col-md-6.mb-3 {
+        width: 100%;
+    }
+    
+    /* Membuat card dengan padding lebih kecil */
+    .card-body {
+        padding: 15px;
+    }
+    
+    .card-header {
+        padding: 15px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .card-header .action-link {
+        margin-top: 10px;
+    }
+    
+    /* Membuat meeting card lebih compact */
+    .meeting-item {
+        flex-wrap: wrap;
+    }
+    
+    .meeting-details {
+        width: 100%;
+        margin-top: 10px;
+        margin-left: 0;
+    }
+    
+    .meeting-status {
+        margin-left: 0;
+        margin-top: 10px;
+        display: inline-block;
+    }
+    
+    /* Membuat todo card lebih compact */
+    .todo-item {
+        flex-wrap: wrap;
+    }
+    
+    .todo-details {
+        width: 100%;
+        margin-top: 10px;
+        margin-left: 0;
+    }
+    
+    /* Timeline pada layar kecil */
+    .timeline:before {
+        left: 15px;
+    }
+    
+    .timeline-item {
+        padding-left: 40px;
+    }
+    
+    .timeline-icon {
+        left: 5px;
+    }
+    
+    /* Modal pada layar kecil */
+    .modal-footer {
+        justify-content: space-between;
+    }
+    
+    /* Footer tampilan mobile */
+    .footer {
+        text-align: center;
+        padding: 15px;
+    }
+    
+    .footer .logo {
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+    
+    .footer .justify-content-end {
+        justify-content: center !important;
+        margin-top: 10px;
+    }
+    
+    .footer .nav {
+        flex-wrap: wrap;
+        justify-content: center !important;
+    }
+    
+    .footer .nav-item {
+        margin-bottom: 5px;
+    }
+}
+
+/* =========== Landscape Mode Adjustments (height < 500px) =========== */
+@media (max-height: 500px) {
+    .sidebar-footer {
+        position: relative;
+    }
+    
+    .sidebar {
+        overflow-y: auto;
+    }
+    
+    .header {
+        height: 60px;
+    }
+    
+    .card {
+        margin-bottom: 15px;
+    }
+    
+    /* Mengatur maksimal tinggi konten */
+    .content {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+    
+    /* Menyesuaikan modal untuk landscape */
+    .modal-dialog {
+        margin: 10px auto;
+    }
+    
+    .modal-body {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+}
+
+/* =========== Print Adjustments =========== */
+@media print {
+    @page {
+        margin: 1cm;
+    }
+    
+    body {
+        font-size: 12pt;
+    }
+    
+    .sidebar, .header, .footer, .sidebar-overlay {
+        display: none !important;
+    }
+    
+    .main-content {
+        margin: 0 !important;
+    }
+    
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #e7e7e7 !important;
+        break-inside: avoid;
+    }
+    
+    .no-print, .btn, .header-icon, .action-link {
+        display: none !important;
+    }
+    
+    .page-title {
+        font-size: 20pt;
+        margin-bottom: 10pt;
+    }
+    
+    .content {
+        padding: 0;
+    }
+    
+    /* Memperbaiki tampilan tabel saat cetak */
+    table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+    }
+    
+    table td, table th {
+        background-color: white !important;
+        border: 1px solid #ddd !important;
+    }
+}
+
+/* =========== Dark Mode (jika diperlukan) =========== */
+@media (prefers-color-scheme: dark) {
+    /* Aktifkan jika perlu implementasi dark mode otomatis */
+    /* Uncomment kode berikut untuk mengaktifkan dark mode */
+    :root {
+        --body-bg: #121212;
+        --card-bg: #1e1e1e;
+        --text-color: #e0e0e0;
+        --border-color: #333;
+    }
+    
+    body:not(.login-page) {
+        background-color: var(--body-bg);
+        color: var(--text-color);
+    }
+    
+    .card, .stat-card {
+        background-color: var(--card-bg);
+        border-color: var(--border-color);
+    }
+    
+    .card-header {
+        background-color: var(--card-bg);
+        border-color: var(--border-color);
+    }
+    
+    .form-control {
+        background-color: #2a2a2a;
+        border-color: var(--border-color);
+        color: var(--text-color);
+    }
+    
+    .header {
+        background-color: var(--card-bg);
+        border-color: var(--border-color);
+    }
+    
+    .modal-content {
+        background-color: var(--card-bg);
+        border-color: var(--border-color);
+    }
+    
+    .text-muted {
+        color: #aaa !important;
+    }
+    
+    .table td, .table th {
+        border-color: var(--border-color);
+    }
+}

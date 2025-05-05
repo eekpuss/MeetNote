@@ -1,0 +1,415 @@
+<!-- Header Component -->
+<div class="header">
+    <div class="mobile-toggle" id="mobileToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+    
+    <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input" id="globalSearch" placeholder="Search...">
+    </div>
+    
+    <div class="header-actions">
+        <div class="header-icon" id="notificationsBtn">
+            <i class="fas fa-bell"></i>
+            <div class="notification-count" id="notifications-count">0</div>
+        </div>
+        
+        <div class="header-icon" id="messagesBtn">
+            <i class="fas fa-envelope"></i>
+            <div class="notification-count" id="messages-count">0</div>
+        </div>
+        
+        <div class="header-icon" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Notifications Dropdown -->
+<div class="dropdown-menu dropdown-menu-end notifications-dropdown" id="notificationsDropdown">
+    <div class="dropdown-header d-flex justify-content-between">
+        <span>Notifications</span>
+        <a href="#" class="text-warm small">Mark all as read</a>
+    </div>
+    <div class="dropdown-divider"></div>
+    <div class="notifications-container" id="notificationsContainer">
+        <!-- Notifications will be added here -->
+        <div class="text-center py-3">
+            <span class="text-muted">No new notifications</span>
+        </div>
+    </div>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item text-center" href="#">View all notifications</a>
+</div>
+
+<!-- Messages Dropdown -->
+<div class="dropdown-menu dropdown-menu-end messages-dropdown" id="messagesDropdown">
+    <div class="dropdown-header d-flex justify-content-between">
+        <span>Messages</span>
+        <a href="#" class="text-warm small">Mark all as read</a>
+    </div>
+    <div class="dropdown-divider"></div>
+    <div class="messages-container" id="messagesContainer">
+        <!-- Messages will be added here -->
+        <div class="text-center py-3">
+            <span class="text-muted">No new messages</span>
+        </div>
+    </div>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item text-center" href="#">View all messages</a>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile toggle untuk sidebar
+        const mobileToggle = document.getElementById('mobileToggle');
+        const sidebar = document.getElementById('sidebar');
+        
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('mobile-visible');
+                
+                // Tambahkan overlay jika sidebar visible
+                if (sidebar.classList.contains('mobile-visible')) {
+                    const overlay = document.createElement('div');
+                    overlay.className = 'sidebar-overlay';
+                    overlay.addEventListener('click', function() {
+                        sidebar.classList.remove('mobile-visible');
+                        this.remove();
+                    });
+                    document.body.appendChild(overlay);
+                } else {
+                    const overlay = document.querySelector('.sidebar-overlay');
+                    if (overlay) overlay.remove();
+                }
+            });
+        }
+        
+        // Search functionality
+        const searchInput = document.getElementById('globalSearch');
+        if (searchInput) {
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    // Implementasi pencarian global
+                    const searchTerm = this.value.trim();
+                    if (searchTerm) {
+                        // Redirect ke halaman hasil pencarian dengan query parameter
+                        window.location.href = `search_results_path?q=${encodeURIComponent(searchTerm)}`;
+                    }
+                }
+            });
+        }
+        
+        // Notifications dropdown
+        const notificationsBtn = document.getElementById('notificationsBtn');
+        const notificationsDropdown = document.getElementById('notificationsDropdown');
+        
+        if (notificationsBtn && notificationsDropdown) {
+            notificationsBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                notificationsDropdown.classList.toggle('show');
+                messagesDropdown.classList.remove('show');
+                
+                // Jika dropdown ditampilkan, ambil notifikasi
+                if (notificationsDropdown.classList.contains('show')) {
+                    fetchNotifications();
+                }
+            });
+        }
+        
+        // Messages dropdown
+        const messagesBtn = document.getElementById('messagesBtn');
+        const messagesDropdown = document.getElementById('messagesDropdown');
+        
+        if (messagesBtn && messagesDropdown) {
+            messagesBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                messagesDropdown.classList.toggle('show');
+                notificationsDropdown.classList.remove('show');
+                
+                // Jika dropdown ditampilkan, ambil pesan
+                if (messagesDropdown.classList.contains('show')) {
+                    fetchMessages();
+                }
+            });
+        }
+        
+        // Close dropdowns saat klik di luar
+        document.addEventListener('click', function(e) {
+            if (!notificationsBtn.contains(e.target) && !notificationsDropdown.contains(e.target)) {
+                notificationsDropdown.classList.remove('show');
+            }
+            
+            if (!messagesBtn.contains(e.target) && !messagesDropdown.contains(e.target)) {
+                messagesDropdown.classList.remove('show');
+            }
+        });
+        
+        // Logout button
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function() {
+                // Hapus token dan data user dari localStorage
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                
+                // Redirect ke halaman login
+                window.location.href = 'login.html';
+            });
+        }
+        
+        // Dummy data untuk notifikasi
+        function fetchNotifications() {
+            // Dalam implementasi nyata, Anda akan mengambil data dari API
+            // Contoh data dummy
+            const notifications = [
+                {
+                    id: 1,
+                    title: 'New Meeting',
+                    message: 'You have been invited to a meeting tomorrow',
+                    time: '10 minutes ago',
+                    type: 'meeting',
+                    read: false
+                },
+                {
+                    id: 2,
+                    title: 'Todo Reminder',
+                    message: 'Task "Prepare presentation" is due today',
+                    time: '30 minutes ago',
+                    type: 'todo',
+                    read: false
+                },
+                {
+                    id: 3,
+                    title: 'System Update',
+                    message: 'MeetNote has been updated to the latest version',
+                    time: '1 hour ago',
+                    type: 'system',
+                    read: true
+                }
+            ];
+            
+            // Update badge count
+            const unreadCount = notifications.filter(n => !n.read).length;
+            document.getElementById('notifications-count').textContent = unreadCount;
+            
+            // Tampilkan notifikasi
+            displayNotifications(notifications);
+        }
+        
+        // Dummy data untuk pesan
+        function fetchMessages() {
+            // Dalam implementasi nyata, Anda akan mengambil data dari API
+            // Contoh data dummy
+            const messages = [
+                {
+                    id: 1,
+                    sender: 'John Doe',
+                    avatar: 'JD',
+                    message: 'Hi, can we reschedule the meeting?',
+                    time: '5 minutes ago',
+                    read: false
+                },
+                {
+                    id: 2,
+                    sender: 'Jane Smith',
+                    avatar: 'JS',
+                    message: 'I\'ve updated the project timeline',
+                    time: '20 minutes ago',
+                    read: false
+                }
+            ];
+            
+            // Update badge count
+            const unreadCount = messages.filter(m => !m.read).length;
+            document.getElementById('messages-count').textContent = unreadCount;
+            
+            // Tampilkan pesan
+            displayMessages(messages);
+        }
+        
+        // Tampilkan notifikasi di dropdown
+        function displayNotifications(notifications) {
+            const container = document.getElementById('notificationsContainer');
+            
+            if (notifications.length === 0) {
+                container.innerHTML = '<div class="text-center py-3"><span class="text-muted">No new notifications</span></div>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            notifications.forEach(notification => {
+                // Icon berdasarkan tipe notifikasi
+                let icon;
+                switch (notification.type) {
+                    case 'meeting':
+                        icon = 'fa-calendar-alt';
+                        break;
+                    case 'todo':
+                        icon = 'fa-tasks';
+                        break;
+                    default:
+                        icon = 'fa-bell';
+                }
+                
+                // Membuat item notifikasi
+                const item = document.createElement('a');
+                item.className = `dropdown-item d-flex align-items-center ${notification.read ? 'read' : 'unread'}`;
+                item.href = '#';
+                
+                item.innerHTML = `
+                    <div class="notification-icon">
+                        <i class="fas ${icon}"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">${notification.title}</div>
+                        <div class="notification-message">${notification.message}</div>
+                        <div class="notification-time">${notification.time}</div>
+                    </div>
+                `;
+                
+                container.appendChild(item);
+            });
+        }
+        
+        // Tampilkan pesan di dropdown
+        function displayMessages(messages) {
+            const container = document.getElementById('messagesContainer');
+            
+            if (messages.length === 0) {
+                container.innerHTML = '<div class="text-center py-3"><span class="text-muted">No new messages</span></div>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            messages.forEach(message => {
+                // Membuat item pesan
+                const item = document.createElement('a');
+                item.className = `dropdown-item d-flex align-items-center ${message.read ? 'read' : 'unread'}`;
+                item.href = '#';
+                
+                item.innerHTML = `
+                    <div class="message-avatar">
+                        ${message.avatar}
+                    </div>
+                    <div class="message-content">
+                        <div class="message-sender">${message.sender}</div>
+                        <div class="message-text">${message.message}</div>
+                        <div class="message-time">${message.time}</div>
+                    </div>
+                `;
+                
+                container.appendChild(item);
+            });
+        }
+        
+        // Initialize notifications dan messages count
+        fetchNotifications();
+        fetchMessages();
+    });
+</script>
+
+<style>
+    /* Dropdown Styles */
+    .notifications-dropdown,
+    .messages-dropdown {
+        width: 320px;
+        max-height: 400px;
+        overflow-y: auto;
+        padding: 0;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border: none;
+        border-radius: 10px;
+    }
+    
+    .dropdown-header {
+        padding: 12px 15px;
+        font-weight: 600;
+        color: var(--dark-blue);
+    }
+    
+    .dropdown-item {
+        padding: 12px 15px;
+        white-space: normal;
+    }
+    
+    .dropdown-item:hover {
+        background-color: #f9f9f9;
+    }
+    
+    .dropdown-item.unread {
+        background-color: rgba(148, 137, 121, 0.05);
+    }
+    
+    /* Notification Styles */
+    .notification-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: rgba(148, 137, 121, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--warm-gray);
+        margin-right: 12px;
+    }
+    
+    .notification-content {
+        flex: 1;
+    }
+    
+    .notification-title {
+        font-weight: 600;
+        color: var(--dark-blue);
+        margin-bottom: 2px;
+    }
+    
+    .notification-message {
+        color: var(--medium-blue);
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+    
+    .notification-time {
+        color: #888;
+        font-size: 12px;
+    }
+    
+    /* Message Styles */
+    .message-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: var(--light-beige);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--dark-blue);
+        font-weight: 600;
+        margin-right: 12px;
+    }
+    
+    .message-content {
+        flex: 1;
+    }
+    
+    .message-sender {
+        font-weight: 600;
+        color: var(--dark-blue);
+        margin-bottom: 2px;
+    }
+    
+    .message-text {
+        color: var(--medium-blue);
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+    
+    .message-time {
+        color: #888;
+        font-size: 12px;
+    }
+</style>

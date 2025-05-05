@@ -1,0 +1,140 @@
+<!-- Loading Component -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner">
+        <div class="spinner-border text-warm" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="loading-text" id="loadingText">Loading...</div>
+    </div>
+</div>
+
+<script>
+    /**
+     * Menampilkan loading overlay
+     * @param {string} message - Pesan yang akan ditampilkan (opsional)
+     */
+    function showLoading(message = 'Loading...') {
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingText');
+        
+        if (loadingText) {
+            loadingText.textContent = message;
+        }
+        
+        if (loadingOverlay) {
+            loadingOverlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Mencegah scroll
+        }
+    }
+    
+    /**
+     * Menyembunyikan loading overlay
+     */
+    function hideLoading() {
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        
+        if (loadingOverlay) {
+            loadingOverlay.style.display = 'none';
+            document.body.style.overflow = ''; // Mengembalikan scroll
+        }
+    }
+    
+    /**
+     * Membuat button loading
+     * @param {HTMLElement} button - Element button yang akan diberi animasi loading
+     * @param {string} loadingText - Teks saat loading (opsional)
+     * @param {boolean} disableButton - Apakah button akan di-disable saat loading (default: true)
+     * @returns {Object} - Objek dengan method start() dan stop()
+     */
+    function buttonLoading(button, loadingText = 'Loading...', disableButton = true) {
+        // Simpan teks asli button
+        const originalText = button.textContent;
+        const originalWidth = button.offsetWidth;
+        
+        return {
+            // Memulai animasi loading
+            start: function() {
+                // Set min-width agar button tidak berubah ukuran
+                button.style.minWidth = originalWidth + 'px';
+                
+                // Disable button jika diperlukan
+                if (disableButton) {
+                    button.disabled = true;
+                }
+                
+                // Tambahkan spinner dan teks loading
+                button.innerHTML = `
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span class="ms-2">${loadingText}</span>
+                `;
+            },
+            
+            // Menghentikan animasi loading
+            stop: function() {
+                // Kembalikan teks asli
+                button.textContent = originalText;
+                
+                // Enable button
+                if (disableButton) {
+                    button.disabled = false;
+                }
+            }
+        };
+    }
+    
+    // Export funtion untuk digunakan di file lain
+    window.showLoading = showLoading;
+    window.hideLoading = hideLoading;
+    window.buttonLoading = buttonLoading;
+    
+    // Mendengarkan event untuk memeriksa apakah ada request loading saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', function() {
+        // Cek apakah ada parameter 'loading' di URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const shouldShowLoading = urlParams.get('loading') === 'true';
+        
+        if (shouldShowLoading) {
+            // Tampilkan loading selama 1 detik sebagai contoh
+            showLoading();
+            setTimeout(hideLoading, 1000);
+        }
+    });
+</script>
+
+<style>
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        z-index: 9999;
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .loading-spinner {
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    
+    .text-warm {
+        color: var(--warm-gray);
+    }
+    
+    .loading-text {
+        margin-top: 15px;
+        font-weight: 600;
+        color: var(--dark-blue);
+    }
+    
+    .spinner-border {
+        width: 3rem;
+        height: 3rem;
+    }
+</style>

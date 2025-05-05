@@ -1,0 +1,285 @@
+<!-- Modal Component -->
+<div class="modal fade" id="dynamicModal" tabindex="-1" aria-labelledby="dynamicModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dynamicModalLabel">Modal Title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="dynamicModalBody">
+                Modal content will be placed here
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="dynamicModalSubmitBtn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="confirmModalBody">
+                Are you sure you want to continue?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmModalYesBtn">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    /**
+     * Modal dinamis yang dapat digunakan untuk berbagai keperluan
+     * @param {Object} options - Konfigurasi modal
+     * @param {string} options.title - Judul modal
+     * @param {string} options.content - Konten modal (bisa berupa HTML)
+     * @param {string} options.size - Ukuran modal (sm, md, lg, xl)
+     * @param {string} options.submitText - Teks tombol submit
+     * @param {string} options.submitClass - Class tombol submit
+     * @param {boolean} options.hideSubmit - Sembunyikan tombol submit
+     * @param {function} options.onSubmit - Callback saat tombol submit diklik
+     * @param {function} options.onClose - Callback saat modal ditutup
+     * @returns {Object} - Objek modal instance
+     */
+    function createModal(options = {}) {
+        const modal = document.getElementById('dynamicModal');
+        const modalTitle = document.getElementById('dynamicModalLabel');
+        const modalBody = document.getElementById('dynamicModalBody');
+        const modalSubmitBtn = document.getElementById('dynamicModalSubmitBtn');
+        const modalDialog = modal.querySelector('.modal-dialog');
+        
+        // Set judul modal
+        if (options.title) {
+            modalTitle.textContent = options.title;
+        }
+        
+        // Set konten modal
+        if (options.content) {
+            modalBody.innerHTML = options.content;
+        }
+        
+        // Set ukuran modal
+        modalDialog.className = 'modal-dialog';
+        if (options.size) {
+            modalDialog.classList.add(`modal-${options.size}`);
+        }
+        
+        // Set teks tombol submit
+        if (options.submitText) {
+            modalSubmitBtn.textContent = options.submitText;
+        } else {
+            modalSubmitBtn.textContent = 'Save';
+        }
+        
+        // Set class tombol submit
+        modalSubmitBtn.className = 'btn';
+        if (options.submitClass) {
+            modalSubmitBtn.classList.add(...options.submitClass.split(' '));
+        } else {
+            modalSubmitBtn.classList.add('btn-primary');
+        }
+        
+        // Sembunyikan tombol submit jika diperlukan
+        if (options.hideSubmit) {
+            modalSubmitBtn.style.display = 'none';
+        } else {
+            modalSubmitBtn.style.display = '';
+        }
+        
+        // Reset event listener tombol submit
+        modalSubmitBtn.onclick = null;
+        
+        // Tambahkan event listener tombol submit jika ada callback
+        if (typeof options.onSubmit === 'function') {
+            modalSubmitBtn.onclick = options.onSubmit;
+        }
+        
+        // Reset event listener modal close
+        const closeHandler = options.onClose;
+        modal.removeEventListener('hidden.bs.modal', closeHandler);
+        
+        // Tambahkan event listener modal close jika ada callback
+        if (typeof options.onClose === 'function') {
+            modal.addEventListener('hidden.bs.modal', options.onClose, { once: true });
+        }
+        
+        // Inisialisasi modal dengan Bootstrap
+        const modalInstance = new bootstrap.Modal(modal);
+        
+        return {
+            show: function() {
+                modalInstance.show();
+            },
+            hide: function() {
+                modalInstance.hide();
+            },
+            getModal: function() {
+                return modal;
+            },
+            getModalBody: function() {
+                return modalBody;
+            },
+            getModalSubmitBtn: function() {
+                return modalSubmitBtn;
+            }
+        };
+    }
+    
+    /**
+     * Menampilkan dialog konfirmasi
+     * @param {Object} options - Konfigurasi dialog
+     * @param {string} options.title - Judul dialog
+     * @param {string} options.message - Pesan konfirmasi
+     * @param {string} options.yesText - Teks tombol "Ya"
+     * @param {string} options.noText - Teks tombol "Tidak"
+     * @param {string} options.yesClass - Class tombol "Ya"
+     * @param {function} options.onYes - Callback saat tombol "Ya" diklik
+     * @param {function} options.onNo - Callback saat tombol "Tidak" diklik
+     * @returns {Object} - Objek modal instance
+     */
+    function createConfirmDialog(options = {}) {
+        const modal = document.getElementById('confirmModal');
+        const modalTitle = document.getElementById('confirmModalLabel');
+        const modalBody = document.getElementById('confirmModalBody');
+        const yesBtn = document.getElementById('confirmModalYesBtn');
+        const closeBtn = modal.querySelector('.btn-secondary');
+        
+        // Set judul dialog
+        if (options.title) {
+            modalTitle.textContent = options.title;
+        } else {
+            modalTitle.textContent = 'Confirmation';
+        }
+        
+        // Set pesan konfirmasi
+        if (options.message) {
+            modalBody.textContent = options.message;
+        } else {
+            modalBody.textContent = 'Are you sure you want to continue?';
+        }
+        
+        // Set teks tombol
+        if (options.yesText) {
+            yesBtn.textContent = options.yesText;
+        } else {
+            yesBtn.textContent = 'Yes';
+        }
+        
+        if (options.noText) {
+            closeBtn.textContent = options.noText;
+        } else {
+            closeBtn.textContent = 'Cancel';
+        }
+        
+        // Set class tombol "Ya"
+        yesBtn.className = 'btn';
+        if (options.yesClass) {
+            yesBtn.classList.add(...options.yesClass.split(' '));
+        } else {
+            yesBtn.classList.add('btn-danger');
+        }
+        
+        // Reset event listener tombol
+        yesBtn.onclick = null;
+        closeBtn.onclick = null;
+        
+        // Tambahkan event listener tombol "Ya"
+        if (typeof options.onYes === 'function') {
+            yesBtn.onclick = function() {
+                options.onYes();
+                bootstrap.Modal.getInstance(modal).hide();
+            };
+        }
+        
+        // Tambahkan event listener tombol "Tidak"
+        if (typeof options.onNo === 'function') {
+            closeBtn.onclick = function() {
+                options.onNo();
+                bootstrap.Modal.getInstance(modal).hide();
+            };
+        } else {
+            closeBtn.onclick = function() {
+                bootstrap.Modal.getInstance(modal).hide();
+            };
+        }
+        
+        // Inisialisasi modal dengan Bootstrap
+        const modalInstance = new bootstrap.Modal(modal);
+        
+        return {
+            show: function() {
+                modalInstance.show();
+            },
+            hide: function() {
+                modalInstance.hide();
+            },
+            getModal: function() {
+                return modal;
+            }
+        };
+    }
+    
+    /**
+     * Alias untuk menampilkan konfirmasi dialog
+     * @param {string} message - Pesan konfirmasi
+     * @param {function} onConfirm - Callback jika user mengkonfirmasi
+     * @param {function} onCancel - Callback jika user membatalkan
+     */
+    function showConfirmDialog(message, onConfirm, onCancel) {
+        createConfirmDialog({
+            message: message,
+            onYes: onConfirm,
+            onNo: onCancel
+        }).show();
+    }
+    
+    // Export function untuk digunakan di file lain
+    window.createModal = createModal;
+    window.createConfirmDialog = createConfirmDialog;
+    window.showConfirmDialog = showConfirmDialog;
+</script>
+
+<style>
+    .modal-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e7e7e7;
+    }
+    
+    .modal-title {
+        color: var(--dark-blue);
+        font-weight: 700;
+    }
+    
+    .modal-footer {
+        border-top: 1px solid #e7e7e7;
+    }
+    
+    .modal .btn-primary {
+        background-color: var(--warm-gray);
+        border-color: var(--warm-gray);
+    }
+    
+    .modal .btn-primary:hover {
+        background-color: #85796a;
+        border-color: #85796a;
+    }
+    
+    .modal .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+    
+    .modal .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+</style>

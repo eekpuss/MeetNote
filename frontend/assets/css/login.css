@@ -1,0 +1,247 @@
+/* 
+ * MeetNote Login CSS
+ * CSS khusus untuk halaman login
+ */
+
+ body.login-page {
+    background-color: var(--medium-blue);
+    background-image: linear-gradient(135deg, var(--dark-blue) 0%, var(--medium-blue) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+.login-container {
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: row;
+}
+
+.login-image {
+    background-color: var(--dark-blue);
+    background-image: linear-gradient(135deg, var(--dark-blue) 0%, var(--medium-blue) 100%);
+    color: white;
+    padding: 60px 40px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.login-form {
+    padding: 60px 40px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.form-header h1 {
+    font-weight: 700;
+    color: var(--dark-blue);
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+.logo {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--light-beige);
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.logo-icon {
+    margin-right: 10px;
+    font-size: 28px;
+}
+
+.login-features {
+    margin-top: 60px;
+}
+
+.feature-item {
+    margin-bottom: 30px;
+    color: var(--light-beige);
+}
+
+.feature-icon {
+    margin-bottom: 15px;
+    font-size: 40px;
+}
+
+.feature-item h5 {
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.feature-item p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+}
+
+/* Form styling */
+.form-label {
+    font-weight: 600;
+    color: var(--dark-blue);
+    margin-bottom: 8px;
+}
+
+.form-control {
+    height: 50px;
+    padding: 12px 15px;
+    border: 1px solid #e7e7e7;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+.input-group .form-control {
+    border-left: none;
+}
+
+.input-group-text {
+    background-color: white;
+    border-right: none;
+    border-color: #e7e7e7;
+    padding-right: 5px;
+    color: #888;
+}
+
+.form-control:focus {
+    border-color: var(--warm-gray);
+    box-shadow: 0 0 0 0.25rem rgba(148, 137, 121, 0.25);
+}
+
+.input-group:focus-within .input-group-text {
+    border-color: var(--warm-gray);
+}
+
+.form-check-input:checked {
+    background-color: var(--warm-gray);
+    border-color: var(--warm-gray);
+}
+
+.toggle-password {
+    border-color: #e7e7e7;
+    border-left: none;
+    color: #888;
+}
+
+.toggle-password:hover {
+    background-color: #f5f5f5;
+    color: var(--dark-blue);
+}
+
+.btn-primary {
+    background-color: var(--warm-gray);
+    border-color: var(--warm-gray);
+    height: 50px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s;
+    font-size: 16px;
+}
+
+.btn-primary:hover, 
+.btn-primary:focus {
+    background-color: #85796a; /* Darker variant */
+    border-color: #85796a;
+}
+
+.forgot-password {
+    color: var(--warm-gray);
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.forgot-password:hover {
+    color: var(--dark-blue);
+    text-decoration: underline;
+}
+
+.register-link {
+    color: var(--warm-gray);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.register-link:hover {
+    color: var(--dark-blue);
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+    .login-image, .login-form {
+        padding: 40px 30px;
+    }
+    
+    .login-features {
+        margin-top: 40px;
+    }
+    
+    .feature-item {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .login-container {
+        flex-direction: column;
+        max-width: 500px;
+    }
+    
+    .login-image {
+        padding: 30px 20px;
+    }
+    
+    .login-features {
+        display: none;
+    }
+    
+    .login-form {
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .login-container {
+        border-radius: 12px;
+    }
+    
+    .login-image {
+        padding: 20px 15px;
+    }
+    
+    .login-form {
+        padding: 20px 15px;
+    }
+    
+    .form-header h1 {
+        font-size: 24px;
+    }
+    
+    .logo {
+        font-size: 26px;
+    }
+}

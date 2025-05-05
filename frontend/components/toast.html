@@ -1,0 +1,151 @@
+<!-- Toast Component -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer">
+    <!-- Toast notifications will be added here dynamically -->
+</div>
+
+<script>
+    /**
+     * Menampilkan notifikasi toast
+     * @param {string} message - Pesan yang akan ditampilkan
+     * @param {string} type - Tipe toast (success, danger, warning, info)
+     * @param {number} duration - Durasi tampilan dalam milidetik (default: 3000ms)
+     */
+    function showToast(message, type = 'success', duration = 3000) {
+        // Cek apakah container toast sudah ada
+        let toastContainer = document.getElementById('toastContainer');
+        
+        if (!toastContainer) {
+            // Buat container toast jika belum ada
+            toastContainer = document.createElement('div');
+            toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+            toastContainer.id = 'toastContainer';
+            document.body.appendChild(toastContainer);
+        }
+        
+        // Buat ID unik untuk toast
+        const toastId = 'toast-' + Date.now();
+        
+        // Buat toast element
+        const toastEl = document.createElement('div');
+        toastEl.className = `toast align-items-center text-white bg-${type} border-0`;
+        toastEl.id = toastId;
+        toastEl.setAttribute('role', 'alert');
+        toastEl.setAttribute('aria-live', 'assertive');
+        toastEl.setAttribute('aria-atomic', 'true');
+        
+        // Buat toast content
+        toastEl.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body">
+                    ${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        `;
+        
+        // Tambahkan toast ke container
+        toastContainer.appendChild(toastEl);
+        
+        // Inisialisasi toast dengan Bootstrap
+        const toast = new bootstrap.Toast(toastEl, { 
+            delay: duration,
+            autohide: true
+        });
+        
+        // Tampilkan toast
+        toast.show();
+        
+        // Hapus toast dari DOM setelah disembunyikan
+        toastEl.addEventListener('hidden.bs.toast', function() {
+            this.remove();
+        });
+        
+        return toastId;
+    }
+    
+    /**
+     * Menampilkan toast sukses
+     * @param {string} message - Pesan sukses
+     */
+    function showSuccessToast(message) {
+        return showToast(message, 'success');
+    }
+    
+    /**
+     * Menampilkan toast error
+     * @param {string} message - Pesan error
+     */
+    function showErrorToast(message) {
+        return showToast(message, 'danger');
+    }
+    
+    /**
+     * Menampilkan toast warning
+     * @param {string} message - Pesan warning
+     */
+    function showWarningToast(message) {
+        return showToast(message, 'warning');
+    }
+    
+    /**
+     * Menampilkan toast info
+     * @param {string} message - Pesan info
+     */
+    function showInfoToast(message) {
+        return showToast(message, 'info');
+    }
+    
+    /**
+     * Menghilangkan toast berdasarkan ID
+     * @param {string} toastId - ID dari toast yang akan dihilangkan
+     */
+    function hideToast(toastId) {
+        const toastEl = document.getElementById(toastId);
+        if (toastEl) {
+            const toast = bootstrap.Toast.getInstance(toastEl);
+            if (toast) {
+                toast.hide();
+            }
+        }
+    }
+    
+    // Export funtion untuk digunakan di file lain
+    window.showToast = showToast;
+    window.showSuccessToast = showSuccessToast;
+    window.showErrorToast = showErrorToast;
+    window.showWarningToast = showWarningToast;
+    window.showInfoToast = showInfoToast;
+    window.hideToast = hideToast;
+</script>
+
+<style>
+    .toast-container {
+        z-index: 1080;
+    }
+    
+    .toast {
+        margin-bottom: 10px;
+        min-width: 250px;
+    }
+    
+    .bg-success {
+        background-color: var(--warm-gray) !important;
+    }
+    
+    .bg-danger {
+        background-color: #dc3545 !important;
+    }
+    
+    .bg-warning {
+        background-color: #ffc107 !important;
+        color: #212529 !important;
+    }
+    
+    .bg-info {
+        background-color: var(--dark-blue) !important;
+    }
+    
+    .toast-body {
+        padding: 12px 15px;
+    }
+</style>

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeetNote - Detail Todo</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Nunito Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../../assets/css/main.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-clipboard-list logo-icon"></i>
+                <span class="menu-text">MeetNote</span>
+            </div>
+            <div class="toggle-btn" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+        
+        <div class="sidebar-menu">
+            <a href="../../index.html" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            
+            <a href="../meetings/list.html" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <span class="menu-text">Meetings</span>
+                <span class="badge-notify">3</span>
+            </a>
+            
+            <a href="list.html" class="menu-item active">
+                <div class="menu-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <span class="menu-text">Todo List</span>
+                <span class="badge-notify">5</span>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <span class="menu-text">Reports</span>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <span class="menu-text">Settings</span>
+            </a>
+        </div>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    JD
+                </div>
+                <div class="user-details">
+                    <div class="user-name">John Doe</div>
+                    <div class="user-role">Administrator</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="header">
+            <div class="mobile-toggle" id="mobileToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="../../index.html">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="list.html">Todo List</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Detail Todo</li>
+                </ol>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="header-icon">
+                    <i class="fas fa-bell"></i>
+                    <div class="notification-count">3</div>
+                </div>
+                
+                <div class="header-icon">
+                    <i class="fas fa-envelope"></i>
+                    <div class="notification-count">2</div>
+                </div>
+                
+                <div class="header-icon">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="todo-header mb-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h1 class="page-title" id="todoTitle">Detail Todo</h1>
+                        <div class="todo-meta">
+                            <span class="me-3"><i class="fas fa-calendar me-2"></i>Deadline: <span id="todoDeadline">-</span></span>
+                            <span class="me-3"><i class="fas fa-user me-2"></i>PIC: <span id="todoAssignee">-</span></span>
+                            <span id="todoPriorityBadge" class="badge bg-warning">Sedang</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="btn-group">
+                            <a href="#" class="btn btn-secondary" id="editBtn"><i class="fas fa-edit me-2"></i>Edit</a>
+                            <button class="btn btn-danger" id="deleteBtn"><i class="fas fa-trash me-2"></i>Hapus</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title">Deskripsi</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="todoDescription">
+                                <!-- Deskripsi akan diisi dari API -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title">Komentar & Aktivitas</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="comment-form mb-3">
+                                <textarea class="form-control mb-2" id="commentText" rows="2" placeholder="Tambahkan komentar..."></textarea>
+                                <button class="btn btn-primary" id="addCommentBtn">Kirim</button>
+                            </div>
+                            
+                            <div class="timeline" id="todoTimeline">
+                                <!-- Timeline akan diisi dari API -->
+                                <div class="timeline-item">
+                                    <div class="timeline-icon bg-primary">
+                                        <i class="fas fa-plus"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <p class="timeline-date">
+                                            <i class="fas fa-clock me-1"></i> <span id="todoCreatedAt">-</span>
+                                        </p>
+                                        <p>Todo dibuat oleh <span id="todoCreator">-</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title">Status</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span id="todoStatusBadge" class="badge bg-danger">Belum Dimulai</span>
+                                <button class="btn btn-sm btn-primary" id="changeStatusBtn">Ubah Status</button>
+                            </div>
+                            
+                            <div id="statusFormContainer" style="display: none;">
+                                <select class="form-select mb-2" id="statusSelect">
+                                    <option value="not_started">Belum Dimulai</option>
+                                    <option value="in_progress">Sedang Dikerjakan</option>
+                                    <option value="completed">Selesai</option>
+                                </select>
+                                <button class="btn btn-sm btn-success" id="saveStatusBtn">Simpan</button>
+                                <button class="btn btn-sm btn-secondary" id="cancelStatusBtn">Batal</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title">Informasi</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Dibuat Pada</span>
+                                    <span id="infoCreatedAt">-</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Diperbarui Pada</span>
+                                    <span id="infoUpdatedAt">-</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Meeting Terkait</span>
+                                    <a href="#" id="infoMeeting">-</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Reminder</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="emailReminder">
+                                <label class="form-check-label" for="emailReminder">Kirim reminder via email</label>
+                            </div>
+                            
+                            <div id="reminderOptions" style="display: none;">
+                                <select class="form-select mb-3" id="reminderTime">
+                                    <option value="1">1 hari sebelum deadline</option>
+                                    <option value="2">2 hari sebelum deadline</option>
+                                    <option value="3">3 hari sebelum deadline</option>
+                                    <option value="7">1 minggu sebelum deadline</option>
+                                </select>
+                                
+                                <button class="btn btn-sm btn-primary w-100" id="saveReminderBtn">Simpan Pengaturan Reminder</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../../assets/js/main.js"></script>
+    <script>
+        // Fungsi untuk mendapatkan token dari localStorage
+        function getToken() {
+            return localStorage.getItem('token');
+        }
+        
+        // Fungsi untuk mendapatkan parameter dari URL
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+        
+        // Mendapatkan ID todo dari URL
+        const todoId = getUrlParameter('id');
+        if (!todoId) {
+            alert('ID Todo tidak valid');
+            window.location.href = 'list.html';
+        }
+        
+        // Mendapatkan detail todo
+        async function fetchTodoDetails() {
+            try {
+                const token = getToken();
+                if (!token) {
+                    window.location.href = '../../login.html';
+                    return;
+                }
+                
+                const response = await fetch(`http://localhost:5000/api/todos/${todoId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch todo details');
+                }
+                
+                const todo = await response.json();
+                
+                // Update UI dengan data todo
+                document.getElementById('todoTitle').textContent = todo.title;
+                document.title = `MeetNote - ${todo.title}`;
+                
+                // Format tanggal deadline
+                if (todo.deadline) {
+                    const deadlineDate = new Date(todo.deadline);
+                    document.getElementById('todoDeadline').textContent = deadlineDate.toLocaleDateString('id-ID', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                    });
+                } else {
+                    document.getElementById('todoDeadline').textContent = 'Tidak ada deadline';
+                }
+                
+                // Assignee
+                document.getElementById('todoAssignee').textContent = todo.assignee ? todo.assignee.username : 'Tidak ditugaskan';
+                
+                // Prioritas
+                let priorityClass, priorityText;
+                switch (todo.priority) {
+                    case 'low':
+                        priorityClass = 'bg-info';
+                        priorityText = 'Rendah';
+                        break;
+                    case 'medium':
+                        priorityClass = 'bg-warning';
+                        priorityText = 'Sedang';
+                        break;
+                    case 'high':
+                        priorityClass = 'bg-danger';
+                        priorityText = 'Tinggi';
+                        break;
+                    default:
+                        priorityClass = 'bg-secondary';
+                        priorityText = 'Tidak diketahui';
+                }
+                
+                const priorityBadge = document.getElementById('todoPriorityBadge');
+                priorityBadge.textContent = priorityText;
+                priorityBadge.className = `badge ${priorityClass}`;
+                
+                // Status
+                let statusClass, statusText;
+                switch (todo.status) {
+                    case 'not_started':
+                        statusClass = 'bg-danger';
+                        statusText = 'Belum Dimulai';
+                        break;
+                    case 'in_progress':
+                        statusClass = 'bg-warning';
+                        statusText = 'Sedang Dikerjakan';
+                        break;
+                    case 'completed':
+                        statusClass = 'bg-success';
+                        statusText = 'Selesai';
+                        break;
+                    default:
+                        statusClass = 'bg-secondary';
+                        statusText = 'Tidak diketahui';
+                }
+                
+                const statusBadge = document.getElementById('todoStatusBadge');
+                statusBadge.textContent = statusText;
+                statusBadge.className = `badge ${statusClass}`;
+                
+                // Set nilai default untuk status select
+                document.getElementById('statusSelect').value = todo.status;
+                
+                // Deskripsi
+                document.getElementById('todoDescription').innerHTML = todo.description || '<p class="text-muted">Tidak ada deskripsi</p>';
+                
+                // Info waktu pembuatan
+                const createdDate = new Date(todo.created_at);
+                document.getElementById('todoCreatedAt').textContent = createdDate.toLocaleString('id-ID');
+                document.getElementById('infoCreatedAt').textContent = createdDate.toLocaleDateString('id-ID');
+                
+                // Info waktu update
+                const updatedDate = new Date(todo.updated_at);
+                document.getElementById('infoUpdatedAt').textContent = updatedDate.toLocaleDateString('id-ID');
+                
+                // Info meeting terkait
+                if (todo.meeting) {
+                    const meetingLink = document.getElementById('infoMeeting');
+                    meetingLink.textContent = todo.meeting.title;
+                    meetingLink.href = `../meetings/view.html?id=${todo.meeting.id}`;
+                } else {
+                    document.getElementById('infoMeeting').textContent = 'Tidak ada';
+                }
+                
+                // Info creator
+                if (todo.creator) {
+                    document.getElementById('todoCreator').textContent = todo.creator.username;
+                }
+                
+                // Update link edit
+                document.getElementById('editBtn').href = `create.html?id=${todoId}`;
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal memuat detail todo. Silakan coba lagi.');
+            }
+        }
+        
+        // Menghapus todo
+        async function deleteTodo() {
+            if (!confirm('Apakah Anda yakin ingin menghapus todo ini?')) {
+                return;
+            }
+            
+            try {
+                const token = getToken();
+                const response = await fetch(`http://localhost:5000/api/todos/${todoId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to delete todo');
+                }
+                
+                alert('Todo berhasil dihapus!');
+                window.location.href = 'list.html';
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal menghapus todo. Silakan coba lagi.');
+            }
+        }
+        
+        // Mengubah status todo
+        async function updateTodoStatus(status) {
+            try {
+                const token = getToken();
+                const response = await fetch(`http://localhost:5000/api/todos/${todoId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to update todo status');
+                }
+                
+                alert('Status todo berhasil diperbarui!');
+                // Refresh halaman
+                location.reload();
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal mengubah status todo. Silakan coba lagi.');
+            }
+        }
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchTodoDetails();
+            
+            // Delete button
+            document.getElementById('deleteBtn').addEventListener('click', deleteTodo);
+            
+            // Change status button
+            document.getElementById('changeStatusBtn').addEventListener('click', () => {
+                document.getElementById('statusFormContainer').style.display = 'block';
+                document.getElementById('changeStatusBtn').style.display = 'none';
+            });
+            
+            // Save status button
+            document.getElementById('saveStatusBtn').addEventListener('click', () => {
+                const status = document.getElementById('statusSelect').value;
+                updateTodoStatus(status);
+            });
+            
+            // Cancel status button
+            document.getElementById('cancelStatusBtn').addEventListener('click', () => {
+                document.getElementById('statusFormContainer').style.display = 'none';
+                document.getElementById('changeStatusBtn').style.display = 'block';
+            });
+            
+            // Email reminder toggle
+            document.getElementById('emailReminder').addEventListener('change', function() {
+                document.getElementById('reminderOptions').style.display = this.checked ? 'block' : 'none';
+            });
+            
+            // Save reminder button
+            document.getElementById('saveReminderBtn').addEventListener('click', () => {
+                alert('Pengaturan reminder berhasil disimpan!');
+                // Implementasi sebenarnya akan mengirim data ke API
+            });
+            
+            // Add comment button
+            document.getElementById('addCommentBtn').addEventListener('click', () => {
+                const commentText = document.getElementById('commentText').value.trim();
+                if (!commentText) {
+                    alert('Komentar tidak boleh kosong');
+                    return;
+                }
+                
+                alert('Fitur komentar akan diimplementasikan.');
+                document.getElementById('commentText').value = '';
+            });
+        });
+    </script>
+</body>
+</html>

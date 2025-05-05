@@ -1,0 +1,149 @@
+<!-- Sidebar Component -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">
+            <i class="fas fa-clipboard-list logo-icon"></i>
+            <span class="menu-text">MeetNote</span>
+        </div>
+        <div class="toggle-btn" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+    
+    <div class="sidebar-menu">
+        <a href="dashboard_path" class="menu-item" id="dashboard-link">
+            <div class="menu-icon">
+                <i class="fas fa-home"></i>
+            </div>
+            <span class="menu-text">Dashboard</span>
+        </a>
+        
+        <a href="meetings_path" class="menu-item" id="meetings-link">
+            <div class="menu-icon">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <span class="menu-text">Meetings</span>
+            <span class="badge-notify" id="meetings-badge">0</span>
+        </a>
+        
+        <a href="todos_path" class="menu-item" id="todos-link">
+            <div class="menu-icon">
+                <i class="fas fa-tasks"></i>
+            </div>
+            <span class="menu-text">Todo List</span>
+            <span class="badge-notify" id="todos-badge">0</span>
+        </a>
+        
+        <a href="reports_path" class="menu-item" id="reports-link">
+            <div class="menu-icon">
+                <i class="fas fa-chart-pie"></i>
+            </div>
+            <span class="menu-text">Reports</span>
+        </a>
+        
+        <a href="settings_path" class="menu-item" id="settings-link">
+            <div class="menu-icon">
+                <i class="fas fa-cog"></i>
+            </div>
+            <span class="menu-text">Settings</span>
+        </a>
+    </div>
+    
+    <div class="sidebar-footer">
+        <div class="user-info">
+            <div class="user-avatar" id="user-avatar">
+                JD
+            </div>
+            <div class="user-details">
+                <div class="user-name" id="user-name">John Doe</div>
+                <div class="user-role" id="user-role">Administrator</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Fungsi untuk menginisialisasi sidebar
+        function initSidebar() {
+            // Mendapatkan path aktif dari URL
+            const currentPath = window.location.pathname;
+            
+            // Menentukan menu aktif berdasarkan path
+            const menuItems = document.querySelectorAll('.sidebar .menu-item');
+            menuItems.forEach(item => {
+                const href = item.getAttribute('href');
+                if (currentPath.includes(href) && href !== 'dashboard_path') {
+                    item.classList.add('active');
+                } else if (href === 'dashboard_path' && (currentPath === '/' || currentPath.includes('index.html') || currentPath.includes('dashboard'))) {
+                    item.classList.add('active');
+                }
+            });
+            
+            // Setup toggle sidebar
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('collapsed');
+                mainContent.classList.toggle('expanded');
+                
+                // Simpan status sidebar ke localStorage
+                localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+            });
+            
+            // Restore sidebar state dari localStorage
+            const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            if (sidebarCollapsed) {
+                sidebar.classList.add('collapsed');
+                mainContent.classList.add('expanded');
+            }
+            
+            // Update badge count dari localStorage/API
+            updateBadgeCounts();
+        }
+        
+        // Fungsi untuk update badge counts
+        function updateBadgeCounts() {
+            // Dalam implementasi nyata, Anda bisa mengambil data dari API
+            // Contoh sederhana menggunakan data dummy
+            document.getElementById('meetings-badge').textContent = '3';
+            document.getElementById('todos-badge').textContent = '5';
+        }
+        
+        // Fungsi untuk update user info
+        function updateUserInfo() {
+            // Mendapatkan info user dari localStorage
+            const user = JSON.parse(localStorage.getItem('user'));
+            
+            if (user) {
+                // Update avatar dengan inisial
+                const initials = getInitials(user.username);
+                document.getElementById('user-avatar').textContent = initials;
+                
+                // Update nama dan role
+                document.getElementById('user-name').textContent = user.username;
+                document.getElementById('user-role').textContent = user.is_admin ? 'Administrator' : 'User';
+            }
+        }
+        
+        // Fungsi untuk mendapatkan inisial
+        function getInitials(name) {
+            if (!name) return '';
+            
+            const parts = name.split(' ');
+            if (parts.length === 1) {
+                return parts[0].substring(0, 2).toUpperCase();
+            }
+            
+            return (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
+        }
+        
+        // Initialize sidebar
+        initSidebar();
+        
+        // Update user info
+        updateUserInfo();
+    });
+</script>

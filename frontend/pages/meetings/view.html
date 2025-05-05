@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeetNote - Detail Meeting</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Nunito Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- TinyMCE -->
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../../assets/css/main.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-clipboard-list logo-icon"></i>
+                <span class="menu-text">MeetNote</span>
+            </div>
+            <div class="toggle-btn" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+        
+        <div class="sidebar-menu">
+            <a href="../../index.html" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            
+            <a href="list.html" class="menu-item active">
+                <div class="menu-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <span class="menu-text">Meetings</span>
+                <span class="badge-notify">3</span>
+            </a>
+            
+            <a href="../todos/list.html" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <span class="menu-text">Todo List</span>
+                <span class="badge-notify">5</span>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <span class="menu-text">Reports</span>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <span class="menu-text">Settings</span>
+            </a>
+        </div>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    JD
+                </div>
+                <div class="user-details">
+                    <div class="user-name">John Doe</div>
+                    <div class="user-role">Administrator</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="header">
+            <div class="mobile-toggle" id="mobileToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="../../index.html">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="list.html">Meetings</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Detail Meeting</li>
+                </ol>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="header-icon">
+                    <i class="fas fa-bell"></i>
+                    <div class="notification-count">3</div>
+                </div>
+                
+                <div class="header-icon">
+                    <i class="fas fa-envelope"></i>
+                    <div class="notification-count">2</div>
+                </div>
+                
+                <div class="header-icon">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="meeting-header mb-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h1 class="page-title" id="meetingTitle">Detail Meeting</h1>
+                        <div class="meeting-meta">
+                            <span class="me-3"><i class="fas fa-calendar me-2"></i><span id="meetingDate">-</span></span>
+                            <span class="me-3"><i class="fas fa-clock me-2"></i><span id="meetingTime">-</span></span>
+                            <span><i class="fas fa-map-marker-alt me-2"></i><span id="meetingLocation">-</span></span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="btn-group">
+                            <a href="#" class="btn btn-primary" id="exportPdfBtn"><i class="fas fa-file-pdf me-2"></i>Export PDF</a>
+                            <a href="#" class="btn btn-info" id="shareBtn"><i class="fas fa-share-alt me-2"></i>Share</a>
+                            <a href="create.html" class="btn btn-secondary" id="editBtn"><i class="fas fa-edit me-2"></i>Edit</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs" id="meetingTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="notes-tab" data-bs-toggle="tab" data-bs-target="#notes" type="button" role="tab" aria-controls="notes" aria-selected="true">Notulen</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="participants-tab" data-bs-toggle="tab" data-bs-target="#participants" type="button" role="tab" aria-controls="participants" aria-selected="false">Peserta</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="todos-tab" data-bs-toggle="tab" data-bs-target="#todos" type="button" role="tab" aria-controls="todos" aria-selected="false">Tindak Lanjut</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="meetingTabsContent">
+                        <!-- Tab Notulen -->
+                        <div class="tab-pane fade show active" id="notes" role="tabpanel" aria-labelledby="notes-tab">
+                            <div class="notes-action-bar mb-3">
+                                <button class="btn btn-sm btn-primary" id="saveNotesBtn">
+                                    <i class="fas fa-save me-2"></i>Simpan Perubahan
+                                </button>
+                            </div>
+                            
+                            <textarea id="noteEditor" class="form-control"></textarea>
+                        </div>
+                        
+                        <!-- Tab Peserta -->
+                        <div class="tab-pane fade" id="participants" role="tabpanel" aria-labelledby="participants-tab">
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="participantsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama</th>
+                                            <th>Email</th>
+                                            <th>Kehadiran</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Data peserta akan diisi dari API -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Tab Tindak Lanjut (Todos) -->
+                        <div class="tab-pane fade" id="todos" role="tabpanel" aria-labelledby="todos-tab">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5>Daftar Tindak Lanjut</h5>
+                                <button class="btn btn-sm btn-primary" id="addTodoBtn">
+                                    <i class="fas fa-plus me-2"></i>Tambah Tindak Lanjut
+                                </button>
+                            </div>
+                            
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="todosTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Judul</th>
+                                            <th>PIC</th>
+                                            <th>Deadline</th>
+                                            <th>Status</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Data todos akan diisi dari API -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Tambah Tindak Lanjut -->
+    <div class="modal fade" id="todoModal" tabindex="-1" aria-labelledby="todoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="todoModalLabel">Tambah Tindak Lanjut</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="todoForm">
+                        <div class="mb-3">
+                            <label for="todoTitle" class="form-label">Judul <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="todoTitle" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="todoDescription" class="form-label">Deskripsi</label>
+                            <textarea class="form-control" id="todoDescription" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="todoAssignee" class="form-label">PIC <span class="text-danger">*</span></label>
+                            <select class="form-select" id="todoAssignee" required>
+                                <!-- Opsi peserta akan diisi dari API -->
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="todoDeadline" class="form-label">Deadline <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="todoDeadline" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="todoPriority" class="form-label">Prioritas</label>
+                            <select class="form-select" id="todoPriority">
+                                <option value="low">Rendah</option>
+                                <option value="medium" selected>Sedang</option>
+                                <option value="high">Tinggi</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" id="saveTodoBtn">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Share Meeting -->
+    <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="shareModalLabel">Bagikan Meeting</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="shareEmails" class="form-label">Email Penerima</label>
+                        <textarea class="form-control" id="shareEmails" rows="3" placeholder="Masukkan email, pisahkan dengan koma"></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="shareMessage" class="form-label">Pesan (opsional)</label>
+                        <textarea class="form-control" id="shareMessage" rows="3" placeholder="Tambahkan pesan"></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="attachPdf" checked>
+                            <label class="form-check-label" for="attachPdf">
+                                Lampirkan sebagai PDF
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" id="sendShareBtn">Kirim</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../../assets/js/main.js"></script>
+    <script>
+        // Fungsi untuk mendapatkan token dari localStorage
+        function getToken() {
+            return localStorage.getItem('token');
+        }
+        
+        // Fungsi untuk mendapatkan parameter dari URL
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+        
+        // Mendapatkan ID meeting dari URL
+        const meetingId = getUrlParameter('id');
+        if (!meetingId) {
+            alert('ID Meeting tidak valid');
+            window.location.href = 'list.html';
+        }
+        
+        // Inisialisasi TinyMCE
+        tinymce.init({
+            selector: '#noteEditor',
+            plugins: 'lists link image table code help wordcount',
+            toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | table | code',
+            height: 500,
+            menubar: false,
+            statusbar: false
+        });
+        
+        // Mendapatkan detail meeting
+        async function fetchMeetingDetails() {
+            try {
+                const token = getToken();
+                if (!token) {
+                    window.location.href = '../../login.html';
+                    return;
+                }
+                
+                const response = await fetch(`http://localhost:5000/api/meetings/${meetingId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch meeting details');
+                }
+                
+                const meeting = await response.json();
+                
+                // Update UI dengan data meeting
+                document.getElementById('meetingTitle').textContent = meeting.title;
+                document.title = `MeetNote - ${meeting.title}`;
+                
+                // Format tanggal dan waktu
+                const meetingDate = new Date(meeting.meeting_date);
+                document.getElementById('meetingDate').textContent = meetingDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+                document.getElementById('meetingTime').textContent = meetingDate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+                
+                document.getElementById('meetingLocation').textContent = meeting.location || 'Tidak ditentukan';
+                
+                // Set link edit
+                document.getElementById('editBtn').href = `create.html?id=${meetingId}`;
+                
+                // Set notulen jika ada
+                if (meeting.notes && meeting.notes.content) {
+                    tinymce.get('noteEditor').setContent(meeting.notes.content);
+                }
+                
+                // Tampilkan peserta
+                displayParticipants(meeting.participants || []);
+                
+                // Ambil todo list
+                fetchTodos();
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal memuat detail meeting. Silakan coba lagi.');
+            }
+        }
+        
+        // Menampilkan daftar peserta
+        function displayParticipants(participants) {
+            const tbody = document.querySelector('#participantsTable tbody');
+            tbody.innerHTML = '';
+            
+            if (participants.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" class="text-center">Tidak ada peserta</td></tr>`;
+                return;
+            }
+            
+            participants.forEach(participant => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${participant.username}</td>
+                        <td>${participant.email}</td>
+                        <td>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="${participant.id}" id="participant${participant.id}">
+                                <label class="form-check-label" for="participant${participant.id}">
+                                    Hadir
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            // Tambahkan option peserta ke dropdown todo
+            const todoAssignee = document.getElementById('todoAssignee');
+            todoAssignee.innerHTML = '<option value="">Pilih PIC</option>';
+            
+            participants.forEach(participant => {
+                todoAssignee.innerHTML += `
+                    <option value="${participant.id}">${participant.username}</option>
+                `;
+            });
+        }
+        
+        // Mendapatkan todo list terkait meeting
+        async function fetchTodos() {
+            try {
+                const token = getToken();
+                const response = await fetch(`http://localhost:5000/api/todos/?meeting_id=${meetingId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch todos');
+                }
+                
+                const todos = await response.json();
+                displayTodos(todos);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal memuat todo list. Silakan coba lagi.');
+            }
+        }
+        
+        // Menampilkan todo list
+        function displayTodos(todos) {
+            const tbody = document.querySelector('#todosTable tbody');
+            tbody.innerHTML = '';
+            
+            if (todos.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center">Tidak ada tindak lanjut</td></tr>`;
+                return;
+            }
+            
+            todos.forEach(todo => {
+                const deadline = todo.deadline ? new Date(todo.deadline).toLocaleDateString('id-ID') : '-';
+                
+                let statusBadge = '';
+                switch (todo.status) {
+                    case 'not_started':
+                        statusBadge = '<span class="badge bg-danger">Belum Dimulai</span>';
+                        break;
+                    case 'in_progress':
+                        statusBadge = '<span class="badge bg-warning">Sedang Dikerjakan</span>';
+                        break;
+                    case 'completed':
+                        statusBadge = '<span class="badge bg-success">Selesai</span>';
+                        break;
+                    default:
+                        statusBadge = '<span class="badge bg-secondary">Tidak Diketahui</span>';
+                }
+                
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${todo.title}</td>
+                        <td>${todo.assignee ? todo.assignee.username : '-'}</td>
+                        <td>${deadline}</td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <button class="btn btn-sm btn-warning me-1" onclick="editTodo(${todo.id})"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteTodo(${todo.id})"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+        
+        // Menyimpan notulen
+        async function saveNotes() {
+            try {
+                const content = tinymce.get('noteEditor').getContent();
+                const token = getToken();
+                
+                const response = await fetch(`http://localhost:5000/api/meetings/${meetingId}/notes`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ content })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to save notes');
+                }
+                
+                alert('Notulen berhasil disimpan!');
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal menyimpan notulen. Silakan coba lagi.');
+            }
+        }
+        
+        // Menambah todo baru
+        async function saveTodo() {
+            try {
+                const title = document.getElementById('todoTitle').value;
+                const description = document.getElementById('todoDescription').value;
+                const assigneeId = document.getElementById('todoAssignee').value;
+                const deadline = document.getElementById('todoDeadline').value;
+                const priority = document.getElementById('todoPriority').value;
+                
+                if (!title || !assigneeId || !deadline) {
+                    alert('Mohon lengkapi form.');
+                    return;
+                }
+                
+                const token = getToken();
+                
+                const todoData = {
+                    title,
+                    description,
+                    assignee_id: parseInt(assigneeId),
+                    deadline: new Date(deadline).toISOString(),
+                    priority,
+                    meeting_id: parseInt(meetingId)
+                };
+                
+                const response = await fetch('http://localhost:5000/api/todos/', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(todoData)
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to create todo');
+                }
+                
+                alert('Tindak lanjut berhasil ditambahkan!');
+                
+                // Reset form dan tutup modal
+                document.getElementById('todoForm').reset();
+                const modal = bootstrap.Modal.getInstance(document.getElementById('todoModal'));
+                modal.hide();
+                
+                // Refresh todos
+                fetchTodos();
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal menambahkan tindak lanjut. Silakan coba lagi.');
+            }
+        }
+        
+        // Export meeting ke PDF
+        async function exportToPdf() {
+            try {
+                const token = getToken();
+                
+                const response = await fetch(`http://localhost:5000/api/meetings/${meetingId}/export`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to export PDF');
+                }
+                
+                // Konversi response ke blob dan download
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `meeting_${meetingId}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                a.remove();
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal mengekspor PDF. Silakan coba lagi.');
+            }
+        }
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchMeetingDetails();
+            
+            // Button untuk menyimpan notulen
+            document.getElementById('saveNotesBtn').addEventListener('click', saveNotes);
+            
+            // Button untuk menambah todo
+            document.getElementById('addTodoBtn').addEventListener('click', () => {
+                const modal = new bootstrap.Modal(document.getElementById('todoModal'));
+                modal.show();
+            });
+            
+            // Button untuk menyimpan todo
+            document.getElementById('saveTodoBtn').addEventListener('click', saveTodo);
+            
+            // Button untuk export PDF
+            document.getElementById('exportPdfBtn').addEventListener('click', exportToPdf);
+            
+            // Button untuk share meeting
+            document.getElementById('shareBtn').addEventListener('click', () => {
+                const modal = new bootstrap.Modal(document.getElementById('shareModal'));
+                modal.show();
+            });
+            
+            // Button untuk mengirim share
+            document.getElementById('sendShareBtn').addEventListener('click', () => {
+                alert('Fitur berbagi akan diimplementasikan.');
+                const modal = bootstrap.Modal.getInstance(document.getElementById('shareModal'));
+                modal.hide();
+            });
+        });
+        
+        // Fungsi untuk mengedit todo
+        function editTodo(todoId) {
+            alert(`Edit Todo ${todoId} - Fitur akan diimplementasikan.`);
+        }
+        
+        // Fungsi untuk menghapus todo
+        async function deleteTodo(todoId) {
+            if (!confirm('Apakah Anda yakin ingin menghapus tindak lanjut ini?')) {
+                return;
+            }
+            
+            try {
+                const token = getToken();
+                const response = await fetch(`http://localhost:5000/api/todos/${todoId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to delete todo');
+                }
+                
+                alert('Tindak lanjut berhasil dihapus!');
+                fetchTodos(); // Refresh todos
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal menghapus tindak lanjut. Silakan coba lagi.');
+            }
+        }
+    </script>
+</body>
+</html>
